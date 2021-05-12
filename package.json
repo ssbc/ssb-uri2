@@ -6,8 +6,8 @@
     "type": "git",
     "url": "git+https://github.com/staltz/ssb-uri2.git"
   },
-  "types": "types.ts",
   "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "author": "Andre Staltz <contact@staltz.com>",
   "license": "LGPL-3.0",
   "keywords": [

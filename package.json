@@ -1,0 +1,38 @@
+{
+  "name": "ssb-uri2",
+  "version": "1.0.0",
+  "description": "Utilities for recognizing and converting SSB URIs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/staltz/ssb-uri2.git"
+  },
+  "types": "types.ts",
+  "main": "lib/index.js",
+  "author": "Andre Staltz <contact@staltz.com>",
+  "license": "LGPL-3.0",
+  "keywords": [
+    "ssb",
+    "uri"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
+  "dependencies": {
+    "ssb-ref": "^2.14.3",
+    "ssb-typescript": "~2.2.0",
+    "url-parse": "^1.5.1"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.39",
+    "nyc": "^15.0.0",
+    "tap-spec": "^5.0.0",
+    "tape": "^5.2.0",
+    "typescript": "~4.2.4"
+  },
+  "scripts": {
+    "compile": "tsc",
+    "test": "npm run compile && npm run tape",
+    "tape": "tape test/*.js | tap-spec",
+    "coverage": "nyc npm run test"
+  }
+}

@@ -187,7 +187,8 @@ export function decompose(uri: string): CanonicalParts {
   if (!pathname) {
     throw new Error('Invalid SSB URI: ' + uri);
   }
-  const [type, format, data] = pathname.split('/');
+  let [type, format, data] = pathname.split('/');
+  data = Base64.safeToUnsafe(data)
   const parts = {type, format, data};
   validateParts(parts);
   return parts;

@@ -25,11 +25,13 @@ test('message from URI to sigil', (t) => {
 });
 
 test('feed URIs recognized', (t) => {
-  t.plan(4);
+  t.plan(5);
   t.true(ssbUri.isSSBURI(fixtures.feed.uri));
   t.true(ssbUri.isFeedSSBURI(fixtures.feed.uri));
   t.true(ssbUri.isFeedSSBURI(fixtures.feed.uri2));
   t.true(ssbUri.isFeedSSBURI(fixtures.feed.uri3));
+
+  t.true(ssbUri.isBendyButtV1FeedSSBURI(fixtures.feed.uri4));
 });
 
 test('feed from sigil to URI', (t) => {

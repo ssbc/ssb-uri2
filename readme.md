@@ -31,6 +31,8 @@ ssbUri.toMessageSigil(exampleURI);
 
 ### `isFeedSSBURI(uri: string | null): boolean`
 
+### `isBendyButtV1FeedSSBURI(uri: string | null): boolean`
+
 ### `isMessageSSBURI(uri: string | null): boolean`
 
 ### `isBlobSSBURI(uri: string | null): boolean`
@@ -62,6 +64,8 @@ ssbUri.toMessageSigil(exampleURI);
 ### `compose(parts: {type, format, data}): string`
 
 ### `decompose(uri: string): {type, format, data}`
+
+The object `{type, format, data}` is such that it matches `ssb:${type}/${format}/${data}`, except the `data` is always in normal Base64 (i.e. **not** URI safe).
 
 ## License
 

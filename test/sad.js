@@ -43,6 +43,11 @@ test('invalid feed SSB URI cannot be converted to sigil', (t) => {
   t.false(ssbUri.toFeedSigil('ssb:'));
 });
 
+test('bendybutt feed URI cannot be converted to sigil', (t) => {
+  t.plan(1);
+  t.notOk(ssbUri.toFeedSigil(fixtures.feed.uri4));
+});
+
 test('invalid message SSB URI cannot be converted to sigil', (t) => {
   t.plan(1);
   t.false(ssbUri.toMessageSigil('ssb:'));
@@ -57,4 +62,3 @@ test('invalid address SSB URI not recognized', (t) => {
   t.plan(1);
   t.false(ssbUri.isAddressSSBURI('ssb:address/multiserver/'));
 });
-

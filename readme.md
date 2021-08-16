@@ -13,14 +13,15 @@ npm install ssb-uri2
 ## Example
 
 ```js
-const ssbUri = require('ssb-uri2')
+const ssbUri = require('ssb-uri2');
 
-const exampleURI = 'ssb:message/sha256/g3hPVPDEO1Aj_uPl0-J2NlhFB2bbFLIHlty-YuqFZ3w='
+const exampleURI =
+  'ssb:message/sha256/g3hPVPDEO1Aj_uPl0-J2NlhFB2bbFLIHlty-YuqFZ3w=';
 
-ssbUri.isMessageSSBURI(exampleURI)
+ssbUri.isMessageSSBURI(exampleURI);
 // true
 
-ssbUri.toMessageSigil(exampleURI)
+ssbUri.toMessageSigil(exampleURI);
 // '%g3hPVPDEO1Aj/uPl0+J2NlhFB2bbFLIHlty+YuqFZ3w=.sha256'
 ```
 
@@ -58,6 +59,9 @@ ssbUri.toMessageSigil(exampleURI)
 
 ### `toMultiserverAddress(uri: string): string | null`
 
+### `compose(parts: {type, format, data}): string`
+
+### `decompose(uri: string): {type, format, data}`
 
 ## License
 

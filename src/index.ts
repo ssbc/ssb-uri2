@@ -12,7 +12,7 @@ const Base64 = {
   },
 };
 
-function getSSBURIBase64Part(pathname: string | null): string | null {
+function getSigilData(pathname: string | null): string | null {
   if (!pathname) return null;
   const ref = /(:|\/)([\w_\-=]+)$/.exec(pathname)?.[2];
   if (!ref) return null;
@@ -20,41 +20,41 @@ function getSSBURIBase64Part(pathname: string | null): string | null {
 }
 
 export function fromFeedSigil(sigil: FeedId) {
-  const ref = Base64.unsafeToSafe(sigil.slice(1, -8));
-  return `ssb:feed/ed25519/${ref}`;
+  const data = Base64.unsafeToSafe(sigil.slice(1, -8));
+  return `ssb:feed/ed25519/${data}`;
 }
 
 export function fromMessageSigil(sigil: MsgId) {
-  const ref = Base64.unsafeToSafe(sigil.slice(1, -7));
-  return `ssb:message/sha256/${ref}`;
+  const data = Base64.unsafeToSafe(sigil.slice(1, -7));
+  return `ssb:message/sha256/${data}`;
 }
 
 export function fromBlobSigil(sigil: BlobId) {
-  const ref = Base64.unsafeToSafe(sigil.slice(1, -7));
-  return `ssb:blob/sha256/${ref}`;
+  const data = Base64.unsafeToSafe(sigil.slice(1, -7));
+  return `ssb:blob/sha256/${data}`;
 }
 
 export function fromMultiserverAddress(msaddr: string) {
-  const encoded = encodeURIComponent(msaddr)
-  return `ssb:address/multiserver?multiserverAddress=${encoded}`
+  const encoded = encodeURIComponent(msaddr);
+  return `ssb:address/multiserver?multiserverAddress=${encoded}`;
 }
 
 export function toFeedSigil(uri: string): FeedId | null {
-  const ref = getSSBURIBase64Part(urlParse(uri, true).pathname)!;
-  if (!ref) return null;
-  return `@${ref}.ed25519`;
+  const sigilData = getSigilData(urlParse(uri, true).pathname)!;
+  if (!sigilData) return null;
+  return `@${sigilData}.ed25519`;
 }
 
 export function toMessageSigil(uri: string): MsgId | null {
-  const ref = getSSBURIBase64Part(urlParse(uri, true).pathname)!;
-  if (!ref) return null;
-  return `%${ref}.sha256`;
+  const sigilData = getSigilData(urlParse(uri, true).pathname)!;
+  if (!sigilData) return null;
+  return `%${sigilData}.sha256`;
 }
 
 export function toBlobSigil(uri: string): BlobId | null {
-  const ref = getSSBURIBase64Part(urlParse(uri, true).pathname)!;
-  if (!ref) return null;
-  return `&${ref}.sha256`;
+  const sigilData = getSigilData(urlParse(uri, true).pathname)!;
+  if (!sigilData) return null;
+  return `&${sigilData}.sha256`;
 }
 
 export function toMultiserverAddress(uri: string): string | null {
@@ -67,7 +67,7 @@ export function isFeedSSBURI(uri: string | null) {
     (uri.startsWith('ssb:feed:ed25519:') ||
       uri.startsWith('ssb:feed/ed25519/') ||
       uri.startsWith('ssb://feed/ed25519/')) &&
-    !!getSSBURIBase64Part(urlParse(uri, true).pathname)
+    !!getSigilData(urlParse(uri, true).pathname)
   );
 }
 
@@ -77,7 +77,7 @@ export function isMessageSSBURI(uri: string | null) {
     (uri.startsWith('ssb:message:sha256:') ||
       uri.startsWith('ssb:message/sha256/') ||
       uri.startsWith('ssb://message/sha256/')) &&
-    !!getSSBURIBase64Part(urlParse(uri, true).pathname)
+    !!getSigilData(urlParse(uri, true).pathname)
   );
 }
 
@@ -87,7 +87,7 @@ export function isBlobSSBURI(uri: string | null) {
     (uri.startsWith('ssb:blob:sha256:') ||
       uri.startsWith('ssb:blob/sha256/') ||
       uri.startsWith('ssb://blob/sha256/')) &&
-    !!getSSBURIBase64Part(urlParse(uri, true).pathname)
+    !!getSigilData(urlParse(uri, true).pathname)
   );
 }
 
@@ -124,4 +124,71 @@ export function isSSBURI(uri: string | null) {
     isAddressSSBURI(uri) ||
     isExperimentalSSBURI(uri)
   );
+}
+
+interface CanonicalFeedParts {
+  type: 'feed';
+  format: 'ed25519';
+  data: string;
+}
+
+interface CanonicalMessageParts {
+  type: 'message';
+  format: 'sha256';
+  data: string;
+}
+
+interface CanonicalBlobParts {
+  type: 'blob';
+  format: 'sha256';
+  data: string;
+}
+
+interface CanonicalAddressParts {
+  type: 'address';
+  format: 'multiserver';
+  data: string;
+}
+
+type CanonicalParts =
+  | CanonicalFeedParts
+  | CanonicalMessageParts
+  | CanonicalBlobParts
+  | CanonicalAddressParts;
+
+type RoughlyParts = {
+  [k in keyof CanonicalParts]?: string;
+};
+
+function validateParts(parts: Partial<CanonicalParts>) {
+  if (!parts.type) throw new Error('Missing required "type" property');
+  if (!parts.format) throw new Error('Missing required "format" property');
+  if (!parts.data) throw new Error('Missing required "data" property');
+
+  if (parts.type === 'feed' && parts.format !== 'ed25519') {
+    throw new Error('Unknown format for type "feed": ' + parts.format);
+  } else if (parts.type === 'message' && parts.format !== 'sha256') {
+    throw new Error('Unknown format for type "message": ' + parts.format);
+  } else if (parts.type === 'blob' && parts.format !== 'sha256') {
+    throw new Error('Unknown format for type "blob": ' + parts.format);
+  } else if (parts.type === 'address' && parts.format !== 'multiserver') {
+    throw new Error('Unknown format for type "address": ' + parts.format);
+  }
+}
+
+export function compose(parts: RoughlyParts) {
+  validateParts(parts as Partial<CanonicalParts>);
+  const {type, format, data} = parts as CanonicalParts;
+  return `ssb:${type}/${format}/${Base64.unsafeToSafe(data)}`;
+}
+
+export function decompose(uri: string): CanonicalParts {
+  const pathname = urlParse(uri, true).pathname;
+  if (!pathname) {
+    throw new Error('Invalid SSB URI: ' + uri);
+  }
+  const [type, format, data] = pathname.split('/');
+  const parts = {type, format, data};
+  validateParts(parts);
+  return parts;
 }

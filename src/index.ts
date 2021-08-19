@@ -40,6 +40,7 @@ export function fromMultiserverAddress(msaddr: string) {
 }
 
 export function toFeedSigil(uri: string): FeedId | null {
+  if (!isFeedSSBURI(uri)) return null;
   const sigilData = getSigilData(urlParse(uri, true).pathname)!;
   if (!sigilData) return null;
   return `@${sigilData}.ed25519`;
@@ -67,6 +68,16 @@ export function isFeedSSBURI(uri: string | null) {
     (uri.startsWith('ssb:feed:ed25519:') ||
       uri.startsWith('ssb:feed/ed25519/') ||
       uri.startsWith('ssb://feed/ed25519/')) &&
+    !!getSigilData(urlParse(uri, true).pathname)
+  );
+}
+
+export function isBendyButtV1FeedSSBURI(uri: string | null) {
+  if (!uri) return false;
+  return (
+    (uri.startsWith('ssb:feed:bendybutt-v1:') ||
+      uri.startsWith('ssb:feed/bendybutt-v1/') ||
+      uri.startsWith('ssb://feed/bendybutt-v1/')) &&
     !!getSigilData(urlParse(uri, true).pathname)
   );
 }
@@ -128,7 +139,7 @@ export function isSSBURI(uri: string | null) {
 
 interface CanonicalFeedParts {
   type: 'feed';
-  format: 'ed25519';
+  format: 'ed25519' | 'bendybutt-v1';
   data: string;
 }
 
@@ -165,7 +176,11 @@ function validateParts(parts: Partial<CanonicalParts>) {
   if (!parts.format) throw new Error('Missing required "format" property');
   if (!parts.data) throw new Error('Missing required "data" property');
 
-  if (parts.type === 'feed' && parts.format !== 'ed25519') {
+  if (
+    parts.type === 'feed' &&
+    parts.format !== 'ed25519' &&
+    parts.format !== 'bendybutt-v1'
+  ) {
     throw new Error('Unknown format for type "feed": ' + parts.format);
   } else if (parts.type === 'message' && parts.format !== 'sha256') {
     throw new Error('Unknown format for type "message": ' + parts.format);
@@ -188,7 +203,7 @@ export function decompose(uri: string): CanonicalParts {
     throw new Error('Invalid SSB URI: ' + uri);
   }
   let [type, format, data] = pathname.split('/');
-  data = Base64.safeToUnsafe(data)
+  data = Base64.safeToUnsafe(data);
   const parts = {type, format, data};
   validateParts(parts);
   return parts;

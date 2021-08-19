@@ -47,6 +47,7 @@ export function toFeedSigil(uri: string): FeedId | null {
 }
 
 export function toMessageSigil(uri: string): MsgId | null {
+  if (!isMessageSSBURI(uri)) return null;
   const sigilData = getSigilData(urlParse(uri, true).pathname)!;
   if (!sigilData) return null;
   return `%${sigilData}.sha256`;
@@ -88,6 +89,16 @@ export function isMessageSSBURI(uri: string | null) {
     (uri.startsWith('ssb:message:sha256:') ||
       uri.startsWith('ssb:message/sha256/') ||
       uri.startsWith('ssb://message/sha256/')) &&
+    !!getSigilData(urlParse(uri, true).pathname)
+  );
+}
+
+export function isBendyButtV1MessageSSBURI(uri: string | null) {
+  if (!uri) return false;
+  return (
+    (uri.startsWith('ssb:message:bendybutt-v1:') ||
+      uri.startsWith('ssb:message/bendybutt-v1/') ||
+      uri.startsWith('ssb://message/bendybutt-v1/')) &&
     !!getSigilData(urlParse(uri, true).pathname)
   );
 }
@@ -145,7 +156,7 @@ interface CanonicalFeedParts {
 
 interface CanonicalMessageParts {
   type: 'message';
-  format: 'sha256';
+  format: 'sha256' | 'bendybutt-v1';
   data: string;
 }
 
@@ -182,11 +193,21 @@ function validateParts(parts: Partial<CanonicalParts>) {
     parts.format !== 'bendybutt-v1'
   ) {
     throw new Error('Unknown format for type "feed": ' + parts.format);
-  } else if (parts.type === 'message' && parts.format !== 'sha256') {
+  }
+
+  if (
+    parts.type === 'message' &&
+    parts.format !== 'sha256' &&
+    parts.format !== 'bendybutt-v1'
+  ) {
     throw new Error('Unknown format for type "message": ' + parts.format);
-  } else if (parts.type === 'blob' && parts.format !== 'sha256') {
+  }
+
+  if (parts.type === 'blob' && parts.format !== 'sha256') {
     throw new Error('Unknown format for type "blob": ' + parts.format);
-  } else if (parts.type === 'address' && parts.format !== 'multiserver') {
+  }
+
+  if (parts.type === 'address' && parts.format !== 'multiserver') {
     throw new Error('Unknown format for type "address": ' + parts.format);
   }
 }

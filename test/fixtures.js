@@ -6,6 +6,7 @@ module.exports.message = {
   uri: 'ssb:message/sha256/g3hPVPDEO1Aj_uPl0-J2NlhFB2bbFLIHlty-YuqFZ3w=',
   uri2: 'ssb:message:sha256:g3hPVPDEO1Aj_uPl0-J2NlhFB2bbFLIHlty-YuqFZ3w=',
   uri3: 'ssb://message/sha256/g3hPVPDEO1Aj_uPl0-J2NlhFB2bbFLIHlty-YuqFZ3w=',
+  uri4: 'ssb://message/bendybutt-v1/Z0rMVMDEO1Aj0uPl0_J2NlhFB2bbFLIHlty_YuqArFq=',
 };
 
 module.exports.feed = {

@@ -8,6 +8,11 @@ test('message URI not recognized as feed URI', (t) => {
   t.false(ssbUri.isFeedSSBURI(fixtures.message.uri));
 });
 
+test('bendybutt message URI cannot be converted to sigil', (t) => {
+  t.plan(1);
+  t.notOk(ssbUri.toMessageSigil(fixtures.message.uri4));
+});
+
 test('falsy input not recognized as feed', (t) => {
   t.plan(1);
   t.false(ssbUri.isFeedSSBURI(null));

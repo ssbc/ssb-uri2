@@ -5,11 +5,13 @@ const fixtures = require('./fixtures');
 const ssbUri = require('../lib');
 
 test('message URIs recognized', (t) => {
-  t.plan(4);
+  t.plan(5);
   t.true(ssbUri.isSSBURI(fixtures.message.uri));
   t.true(ssbUri.isMessageSSBURI(fixtures.message.uri));
   t.true(ssbUri.isMessageSSBURI(fixtures.message.uri2));
   t.true(ssbUri.isMessageSSBURI(fixtures.message.uri3));
+
+  t.true(ssbUri.isBendyButtV1MessageSSBURI(fixtures.message.uri4))
 });
 
 test('message from sigil to URI', (t) => {

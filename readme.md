@@ -35,6 +35,8 @@ ssbUri.toMessageSigil(exampleURI);
 
 ### `isMessageSSBURI(uri: string | null): boolean`
 
+### `isBendyButtV1MessageSSBURI(uri: string | null): boolean`
+
 ### `isBlobSSBURI(uri: string | null): boolean`
 
 ### `isAddressSSBURI(uri: string | null): boolean`

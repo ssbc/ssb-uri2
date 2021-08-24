@@ -5,7 +5,8 @@ type FeedTF = ['feed', 'ed25519'] | ['feed', 'bendybutt-v1'];
 type MessageTF = ['message', 'sha256'] | ['message', 'bendybutt-v1'];
 type BlobTF = ['blob', 'sha256'];
 type AddressTF = ['address', 'multiserver'];
-type TF = FeedTF | MessageTF | BlobTF | AddressTF;
+type EncryptionKeyTF = ['encryption-key', 'box2-dm-dh'];
+type TF = FeedTF | MessageTF | BlobTF | AddressTF | EncryptionKeyTF;
 
 const Base64 = {
   unsafeToSafe(input: string) {
@@ -105,6 +106,10 @@ export function isAddressSSBURI(uri: string | null) {
       uri.startsWith('ssb://address/multiserver')) &&
     !!urlParse(uri, true).query?.multiserverAddress
   );
+}
+
+export function isEncryptionKeyBox2DMDiffieHellmanSSBURI(uri: string | null) {
+  return checkTypeFormat(uri, 'encryption-key', 'box2-dm-dh');
 }
 
 export function isExperimentalSSBURI(uri: string | null) {

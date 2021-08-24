@@ -41,6 +41,8 @@ ssbUri.toMessageSigil(exampleURI);
 
 ### `isAddressSSBURI(uri: string | null): boolean`
 
+### `isEncryptionKeyBox2DMDiffieHellmanSSBURI(uri: string | null): boolean`
+
 ### `isExperimentalSSBURI(uri: string | null): boolean`
 
 ### `isExperimentalSSBURIWithAction(action: string): (uri: string) => boolean`

@@ -141,9 +141,13 @@ export function isExperimentalSSBURIWithAction(action: string) {
 export function isSSBURI(uri: string | null) {
   return (
     isFeedSSBURI(uri) ||
+    isBendyButtV1FeedSSBURI(uri) ||
     isMessageSSBURI(uri) ||
+    isBendyButtV1MessageSSBURI(uri) ||
     isBlobSSBURI(uri) ||
     isAddressSSBURI(uri) ||
+    isEncryptionKeyBox2DMDiffieHellmanSSBURI(uri) ||
+    isIdentityPOBoxSSBURI(uri) ||
     isExperimentalSSBURI(uri)
   );
 }

@@ -6,7 +6,14 @@ type MessageTF = ['message', 'sha256'] | ['message', 'bendybutt-v1'];
 type BlobTF = ['blob', 'sha256'];
 type AddressTF = ['address', 'multiserver'];
 type EncryptionKeyTF = ['encryption-key', 'box2-dm-dh'];
-type TF = FeedTF | MessageTF | BlobTF | AddressTF | EncryptionKeyTF;
+type IdentityTF = ['identity', 'po-box'];
+type TF =
+  | FeedTF
+  | MessageTF
+  | BlobTF
+  | AddressTF
+  | EncryptionKeyTF
+  | IdentityTF;
 
 const Base64 = {
   unsafeToSafe(input: string) {
@@ -110,6 +117,10 @@ export function isAddressSSBURI(uri: string | null) {
 
 export function isEncryptionKeyBox2DMDiffieHellmanSSBURI(uri: string | null) {
   return checkTypeFormat(uri, 'encryption-key', 'box2-dm-dh');
+}
+
+export function isIdentityPOBoxSSBURI(uri: string | null) {
+  return checkTypeFormat(uri, 'identity', 'po-box');
 }
 
 export function isExperimentalSSBURI(uri: string | null) {

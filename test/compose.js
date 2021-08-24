@@ -5,12 +5,11 @@ const ssbUri = require('../lib');
 
 test('compose()', (t) => {
   t.plan(1);
-  const parts = {
+  const uri = ssbUri.compose({
     type: 'message',
     format: 'sha256',
     data: 'g3hPVPDEO1Aj/uPl0+J2NlhFB2bbFLIHlty+YuqFZ3w=',
-  };
-  const uri = ssbUri.compose(parts);
+  });
   t.equals(uri, fixtures.message.uri);
 });
 

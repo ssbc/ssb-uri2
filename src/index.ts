@@ -152,63 +152,61 @@ export function isSSBURI(uri: string | null) {
   );
 }
 
-interface CanonicalFeedParts {
-  type: FeedTF[0];
-  format: FeedTF[1];
+type PartsFor<X extends TF> = {
+  type: X[0];
+  format: X[1];
   data: string;
-}
-
-interface CanonicalMessageParts {
-  type: MessageTF[0];
-  format: MessageTF[1];
-  data: string;
-}
-
-interface CanonicalBlobParts {
-  type: BlobTF[0];
-  format: BlobTF[1];
-  data: string;
-}
-
-interface CanonicalAddressParts {
-  type: AddressTF[0];
-  format: AddressTF[1];
-  data: string;
-}
+};
 
 type CanonicalParts =
-  | CanonicalFeedParts
-  | CanonicalMessageParts
-  | CanonicalBlobParts
-  | CanonicalAddressParts;
+  | PartsFor<FeedTF>
+  | PartsFor<MessageTF>
+  | PartsFor<BlobTF>
+  | PartsFor<AddressTF>
+  | PartsFor<EncryptionKeyTF>
+  | PartsFor<IdentityTF>;
 
 function validateParts(parts: Partial<CanonicalParts>) {
   if (!parts.type) throw new Error('Missing required "type" property');
   if (!parts.format) throw new Error('Missing required "format" property');
   if (!parts.data) throw new Error('Missing required "data" property');
 
-  if (
-    parts.type === 'feed' &&
-    parts.format !== 'ed25519' &&
-    parts.format !== 'bendybutt-v1'
-  ) {
-    throw new Error('Unknown format for type "feed": ' + parts.format);
+  if (parts.type === 'feed') {
+    if (parts.format !== 'ed25519' && parts.format !== 'bendybutt-v1') {
+      throw new Error('Unknown format for type "feed": ' + parts.format);
+    } else return;
   }
 
-  if (
-    parts.type === 'message' &&
-    parts.format !== 'sha256' &&
-    parts.format !== 'bendybutt-v1'
-  ) {
-    throw new Error('Unknown format for type "message": ' + parts.format);
+  if (parts.type === 'message') {
+    if (parts.format !== 'sha256' && parts.format !== 'bendybutt-v1') {
+      throw new Error('Unknown format for type "message": ' + parts.format);
+    } else return;
   }
 
-  if (parts.type === 'blob' && parts.format !== 'sha256') {
-    throw new Error('Unknown format for type "blob": ' + parts.format);
+  if (parts.type === 'blob') {
+    if (parts.format !== 'sha256') {
+      throw new Error('Unknown format for type "blob": ' + parts.format);
+    } else return;
   }
 
-  if (parts.type === 'address' && parts.format !== 'multiserver') {
-    throw new Error('Unknown format for type "address": ' + parts.format);
+  if (parts.type === 'address') {
+    if (parts.format !== 'multiserver') {
+      throw new Error('Unknown format for type "address": ' + parts.format);
+    } else return;
+  }
+
+  if (parts.type === 'encryption-key') {
+    if (parts.format !== 'box2-dm-dh') {
+      throw new Error(
+        'Unknown format for type "encryption-key": ' + parts.format,
+      );
+    } else return;
+  }
+
+  if (parts.type === 'identity') {
+    if (parts.format !== 'po-box') {
+      throw new Error('Unknown format for type "identity": ' + parts.format);
+    } else return;
   }
 }
 

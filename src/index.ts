@@ -1,8 +1,8 @@
 import {BlobId, FeedId, MsgId} from 'ssb-typescript';
 const urlParse = require('url-parse');
 
-type FeedTF = ['feed', 'ed25519'] | ['feed', 'bendybutt-v1'];
-type MessageTF = ['message', 'sha256'] | ['message', 'bendybutt-v1'];
+type FeedTF = ['feed', 'ed25519'] | ['feed', 'bendybutt-v1'] | ['feed', 'gabbygrove-v1'];
+type MessageTF = ['message', 'sha256'] | ['message', 'bendybutt-v1'] | ['message', 'gabbygrove-v1'];
 type BlobTF = ['blob', 'sha256'];
 type AddressTF = ['address', 'multiserver'];
 type EncryptionKeyTF = ['encryption-key', 'box2-dm-dh'];
@@ -93,12 +93,20 @@ export function isBendyButtV1FeedSSBURI(uri: string | null) {
   return checkTypeFormat(uri, 'feed', 'bendybutt-v1');
 }
 
+export function isGabbyGroveV1FeedSSBURI(uri: string | null) {
+  return checkTypeFormat(uri, 'feed', 'gabbygrove-v1');
+}
+
 export function isMessageSSBURI(uri: string | null) {
   return checkTypeFormat(uri, 'message', 'sha256');
 }
 
 export function isBendyButtV1MessageSSBURI(uri: string | null) {
   return checkTypeFormat(uri, 'message', 'bendybutt-v1');
+}
+
+export function isGabbyGroveV1MessageSSBURI(uri: string | null) {
+  return checkTypeFormat(uri, 'message', 'gabbygrove-v1');
 }
 
 export function isBlobSSBURI(uri: string | null) {
@@ -142,8 +150,10 @@ export function isSSBURI(uri: string | null) {
   return (
     isFeedSSBURI(uri) ||
     isBendyButtV1FeedSSBURI(uri) ||
+    isGabbyGroveV1FeedSSBURI(uri) ||
     isMessageSSBURI(uri) ||
     isBendyButtV1MessageSSBURI(uri) ||
+    isGabbyGroveV1MessageSSBURI(uri) ||
     isBlobSSBURI(uri) ||
     isAddressSSBURI(uri) ||
     isEncryptionKeyBox2DMDiffieHellmanSSBURI(uri) ||

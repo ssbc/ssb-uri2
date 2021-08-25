@@ -13,6 +13,11 @@ test('bendybutt message URI cannot be converted to sigil', (t) => {
   t.notOk(ssbUri.toMessageSigil(fixtures.message.uri4));
 });
 
+test('gabbygrove message URI cannot be converted to sigil', (t) => {
+  t.plan(1);
+  t.notOk(ssbUri.toMessageSigil(fixtures.message.uri5));
+});
+
 test('falsy input not recognized as feed', (t) => {
   t.plan(1);
   t.false(ssbUri.isFeedSSBURI(null));
@@ -51,6 +56,11 @@ test('invalid feed SSB URI cannot be converted to sigil', (t) => {
 test('bendybutt feed URI cannot be converted to sigil', (t) => {
   t.plan(1);
   t.notOk(ssbUri.toFeedSigil(fixtures.feed.uri4));
+});
+
+test('gabbygrove feed URI cannot be converted to sigil', (t) => {
+  t.plan(1);
+  t.notOk(ssbUri.toFeedSigil(fixtures.feed.uri5));
 });
 
 test('invalid message SSB URI cannot be converted to sigil', (t) => {

@@ -7,6 +7,7 @@ module.exports.message = {
   uri2: 'ssb:message:sha256:g3hPVPDEO1Aj_uPl0-J2NlhFB2bbFLIHlty-YuqFZ3w=',
   uri3: 'ssb://message/sha256/g3hPVPDEO1Aj_uPl0-J2NlhFB2bbFLIHlty-YuqFZ3w=',
   uri4: 'ssb://message/bendybutt-v1/Z0rMVMDEO1Aj0uPl0_J2NlhFB2bbFLIHlty_YuqArFq=',
+  uri5: 'ssb:message/gabbygrove-v1/QibgMEFVrupoOpiILKVoNXnhzdVQVZf7dkmL9MSXO5g=',
 };
 
 module.exports.feed = {
@@ -15,6 +16,7 @@ module.exports.feed = {
   uri2: 'ssb:feed:ed25519:-oaWWDs8g73EZFUMfW37R_ULtFEjwKN_DczvdYihjbU=',
   uri3: 'ssb://feed/ed25519/-oaWWDs8g73EZFUMfW37R_ULtFEjwKN_DczvdYihjbU=',
   uri4: 'ssb:feed/bendybutt-v1/APaWWDs8g73EZFUMfW37RBULtFEjwKNbDczvdYiRXtA=',
+  uri5: 'ssb:feed/gabbygrove-v1/FY5OG311W4j_KPh8H9B2MZt4WSziy_p-ABkKERJdujQ=',
 };
 
 module.exports.blob = {

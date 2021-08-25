@@ -5,13 +5,14 @@ const fixtures = require('./fixtures');
 const ssbUri = require('../lib');
 
 test('message URIs recognized', (t) => {
-  t.plan(5);
+  t.plan(6);
   t.true(ssbUri.isSSBURI(fixtures.message.uri));
   t.true(ssbUri.isMessageSSBURI(fixtures.message.uri));
   t.true(ssbUri.isMessageSSBURI(fixtures.message.uri2));
   t.true(ssbUri.isMessageSSBURI(fixtures.message.uri3));
 
   t.true(ssbUri.isBendyButtV1MessageSSBURI(fixtures.message.uri4))
+  t.true(ssbUri.isGabbyGroveV1MessageSSBURI(fixtures.message.uri5))
 });
 
 test('message from sigil to URI', (t) => {
@@ -27,13 +28,14 @@ test('message from URI to sigil', (t) => {
 });
 
 test('feed URIs recognized', (t) => {
-  t.plan(5);
+  t.plan(6);
   t.true(ssbUri.isSSBURI(fixtures.feed.uri));
   t.true(ssbUri.isFeedSSBURI(fixtures.feed.uri));
   t.true(ssbUri.isFeedSSBURI(fixtures.feed.uri2));
   t.true(ssbUri.isFeedSSBURI(fixtures.feed.uri3));
 
   t.true(ssbUri.isBendyButtV1FeedSSBURI(fixtures.feed.uri4));
+  t.true(ssbUri.isGabbyGroveV1FeedSSBURI(fixtures.feed.uri5));
 });
 
 test('feed from sigil to URI', (t) => {

@@ -21,7 +21,7 @@
     "node": ">=10"
   },
   "dependencies": {
-    "ssb-typescript": "~2.2.0",
+    "ssb-typescript": "~2.5.0",
     "url-parse": "^1.5.1"
   },
   "devDependencies": {

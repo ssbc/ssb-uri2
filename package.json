@@ -1,6 +1,6 @@
 {
   "name": "ssb-uri2",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "description": "Utilities for recognizing and converting SSB URIs",
   "repository": {
     "type": "git",

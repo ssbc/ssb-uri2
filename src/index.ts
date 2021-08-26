@@ -182,13 +182,13 @@ function validateParts(parts: Partial<CanonicalParts>) {
   if (!parts.data) throw new Error('Missing required "data" property');
 
   if (parts.type === 'feed') {
-    if (parts.format !== 'ed25519' && parts.format !== 'bendybutt-v1') {
+    if (parts.format !== 'ed25519' && parts.format !== 'bendybutt-v1' && parts.format !== 'gabbygrove-v1') {
       throw new Error('Unknown format for type "feed": ' + parts.format);
     } else return;
   }
 
   if (parts.type === 'message') {
-    if (parts.format !== 'sha256' && parts.format !== 'bendybutt-v1') {
+    if (parts.format !== 'sha256' && parts.format !== 'bendybutt-v1' && parts.format !== 'gabbygrove-v1') {
       throw new Error('Unknown format for type "message": ' + parts.format);
     } else return;
   }

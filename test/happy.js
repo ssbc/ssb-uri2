@@ -50,6 +50,18 @@ test('feed from URI to sigil', (t) => {
   t.equal(sigil, fixtures.feed.sigil);
 });
 
+test('bendy butt feed from URI to sigil', (t) => {
+  t.plan(1);
+  const sigil = ssbUri.toFeedSigil(fixtures.feed.uri4);
+  t.equal(sigil, fixtures.feed.sigil);
+});
+
+test('gabby grove feed from URI to sigil', (t) => {
+  t.plan(1);
+  const sigil = ssbUri.toFeedSigil(fixtures.feed.uri5);
+  t.equal(sigil, fixtures.feed.sigil);
+});
+
 test('blob URIs recognized', (t) => {
   t.plan(4);
   t.true(ssbUri.isSSBURI(fixtures.blob.uri));

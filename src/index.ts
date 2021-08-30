@@ -53,7 +53,7 @@ export function fromMultiserverAddress(msaddr: string) {
 }
 
 export function toFeedSigil(uri: string): FeedId | null {
-  if (!isFeedSSBURI(uri)) return null;
+  if (!isFeedSSBURI(uri) && !isBendyButtV1FeedSSBURI(uri) && !isGabbyGroveV1FeedSSBURI(uri)) return null;
   const base64Data = extractBase64Data(urlParse(uri, true).pathname)!;
   if (!base64Data) return null;
   return `@${base64Data}.ed25519`;

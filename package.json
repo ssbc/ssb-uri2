@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "ssb-typescript": "~2.5.0",
-    "url-parse": "^1.5.1"
+    "url-parse": "^1.5.3"
   },
   "devDependencies": {
     "@types/node": "^14.14.39",

@@ -49,6 +49,8 @@ ssbUri.toMessageSigil(exampleURI);
 
 ### `isIdentityPOBoxSSBURI(uri: string | null): boolean`
 
+### `isIdentityFusionSSBURI(uri: string | null): boolean`
+
 ### `isExperimentalSSBURI(uri: string | null): boolean`
 
 ### `isExperimentalSSBURIWithAction(action: string): (uri: string) => boolean`

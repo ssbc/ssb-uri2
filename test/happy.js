@@ -90,6 +90,12 @@ test('address from URI to multiserver', (t) => {
   t.true(Ref.isAddress(msaddr));
 });
 
+test('identity URIs recognized', (t) => {
+  t.plan(2);
+  t.true(ssbUri.isSSBURI(fixtures.identity.uri));
+  t.true(ssbUri.isSSBURI(fixtures.identity.uri2));
+});
+
 test('experimental URIs recognized', (t) => {
   t.plan(3);
   t.true(ssbUri.isSSBURI(fixtures.experimental.httpInviteUri));

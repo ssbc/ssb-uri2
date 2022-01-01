@@ -6,7 +6,7 @@ type MessageTF = ['message', 'sha256'] | ['message', 'bendybutt-v1'] | ['message
 type BlobTF = ['blob', 'sha256'];
 type AddressTF = ['address', 'multiserver'];
 type EncryptionKeyTF = ['encryption-key', 'box2-dm-dh'];
-type IdentityTF = ['identity', 'po-box'];
+type IdentityTF = ['identity', 'po-box'] | ['identity', 'fusion'];
 type TF =
   | FeedTF
   | MessageTF
@@ -131,6 +131,10 @@ export function isIdentityPOBoxSSBURI(uri: string | null) {
   return checkTypeFormat(uri, 'identity', 'po-box');
 }
 
+export function isIdentityFusionSSBURI(uri: string | null) {
+  return checkTypeFormat(uri, 'identity', 'fusion');
+}
+
 export function isExperimentalSSBURI(uri: string | null) {
   if (!uri) return false;
   return (
@@ -158,6 +162,7 @@ export function isSSBURI(uri: string | null) {
     isAddressSSBURI(uri) ||
     isEncryptionKeyBox2DMDiffieHellmanSSBURI(uri) ||
     isIdentityPOBoxSSBURI(uri) ||
+    isIdentityFusionSSBURI(uri) ||
     isExperimentalSSBURI(uri)
   );
 }
@@ -214,7 +219,7 @@ function validateParts(parts: Partial<CanonicalParts>) {
   }
 
   if (parts.type === 'identity') {
-    if (parts.format !== 'po-box') {
+    if (parts.format !== 'po-box' && parts.format !== 'fusion') {
       throw new Error('Unknown format for type "identity": ' + parts.format);
     } else return;
   }

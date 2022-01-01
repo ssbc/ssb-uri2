@@ -33,6 +33,11 @@ module.exports.address = {
   uri3: 'ssb://address/multiserver?multiserverAddress=net%3Awx.larpa.net%3A8008~shs%3ADTNmX%2B4SjsgZ7xyDh5xxmNtFqa6pWi5Qtw7cE8aR9TQ%3D',
 };
 
+module.exports.identity = {
+  uri: 'ssb:identity/po-box/-oaWWDs8g73EZFUMfW37R_ULtFEjwKN_DczvdYihjbU=',
+  uri2: 'ssb:identity/fusion/-oaWWDs8g73EZFUMfW37R_ULtFEjwKN_DczvdYihjbU=',
+};
+
 module.exports.experimental = {
   httpInviteUri:
     'ssb://experimental/?action=claim-http-invite&invite=39c0ac1850ec9af14f1bb73&postTo=https%3A%2F%2Fscuttlebutt.eu%2Fclaiminvite',

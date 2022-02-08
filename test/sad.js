@@ -77,3 +77,81 @@ test('invalid address SSB URI not recognized', (t) => {
   t.plan(1);
   t.false(ssbUri.isAddressSSBURI('ssb:address/multiserver/'));
 });
+
+test('compose() missing type', (t) => {
+  t.plan(1);
+  t.throws(
+    () => ssbUri.compose({format: 'ed25519', data: 'yum'}),
+    /Missing required "type"/,
+  );
+});
+
+test('compose() missing format', (t) => {
+  t.plan(1);
+  t.throws(
+    () => ssbUri.compose({type: 'feed', data: 'yum'}),
+    /Missing required "format"/,
+  );
+});
+
+test('compose() missing data', (t) => {
+  t.plan(1);
+  t.throws(
+    () => ssbUri.compose({type: 'feed', format: 'ed25519'}),
+    /Missing required "data"/,
+  );
+});
+
+test('compose() got bad format for type feed', (t) => {
+  t.plan(1);
+  t.throws(
+    () => ssbUri.compose({type: 'feed', format: 'lols', data: 'ABCDE'}),
+    /Unknown format for type/,
+  );
+});
+
+test('compose() got bad format for type message', (t) => {
+  t.plan(1);
+  t.throws(
+    () => ssbUri.compose({type: 'message', format: 'lols', data: 'ABCDE'}),
+    /Unknown format for type/,
+  );
+});
+
+test('compose() got bad format for type blob', (t) => {
+  t.plan(1);
+  t.throws(
+    () => ssbUri.compose({type: 'blob', format: 'lols', data: 'ABCDE'}),
+    /Unknown format for type/,
+  );
+});
+
+test('compose() got bad format for type address', (t) => {
+  t.plan(1);
+  t.throws(
+    () => ssbUri.compose({type: 'address', format: 'lols', data: 'ABCDE'}),
+    /Unknown format for type/,
+  );
+});
+
+test('compose() got bad format for type encryption-key', (t) => {
+  t.plan(1);
+  t.throws(
+    () =>
+      ssbUri.compose({type: 'encryption-key', format: 'lols', data: 'ABCDE'}),
+    /Unknown format for type/,
+  );
+});
+
+test('compose() got bad format for type identity', (t) => {
+  t.plan(1);
+  t.throws(
+    () => ssbUri.compose({type: 'identity', format: 'lols', data: 'ABCDE'}),
+    /Unknown format for type/,
+  );
+});
+
+test('decompose() an pathname-less SSB URI', (t) => {
+  t.plan(1);
+  t.throws(() => ssbUri.decompose('ssb:'), /Invalid SSB URI/);
+});

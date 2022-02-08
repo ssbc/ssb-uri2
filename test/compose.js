@@ -3,7 +3,7 @@ const test = require('tape');
 const fixtures = require('./fixtures');
 const ssbUri = require('../lib');
 
-test('compose()', (t) => {
+test('compose() a message URI', (t) => {
   t.plan(1);
   const uri = ssbUri.compose({
     type: 'message',
@@ -13,7 +13,7 @@ test('compose()', (t) => {
   t.equals(uri, fixtures.message.uri);
 });
 
-test('decompose()', (t) => {
+test('decompose() a message URI', (t) => {
   t.plan(4);
   const parts = ssbUri.decompose(fixtures.message.uri);
   t.deepEquals(Object.keys(parts), ['type', 'format', 'data'], 'obj keys');
@@ -26,4 +26,14 @@ test('decompose() and compose()', (t) => {
   t.plan(1);
   const uri = ssbUri.compose(ssbUri.decompose(fixtures.message.uri));
   t.equals(uri, fixtures.message.uri, 'same');
+});
+
+test('compose() a feed URI', (t) => {
+  t.plan(1);
+  const uri = ssbUri.compose({
+    type: 'feed',
+    format: 'ed25519',
+    data: '+oaWWDs8g73EZFUMfW37R/ULtFEjwKN_DczvdYihjbU=',
+  });
+  t.equals(uri, fixtures.feed.uri);
 });

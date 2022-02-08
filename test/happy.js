@@ -1,6 +1,6 @@
 //@ts-check
 const test = require('tape');
-const Ref = require('ssb-ref')
+const Ref = require('ssb-ref');
 const fixtures = require('./fixtures');
 const ssbUri = require('../lib');
 
@@ -11,8 +11,8 @@ test('message URIs recognized', (t) => {
   t.true(ssbUri.isMessageSSBURI(fixtures.message.uri2));
   t.true(ssbUri.isMessageSSBURI(fixtures.message.uri3));
 
-  t.true(ssbUri.isBendyButtV1MessageSSBURI(fixtures.message.uri4))
-  t.true(ssbUri.isGabbyGroveV1MessageSSBURI(fixtures.message.uri5))
+  t.true(ssbUri.isBendyButtV1MessageSSBURI(fixtures.message.uri4));
+  t.true(ssbUri.isGabbyGroveV1MessageSSBURI(fixtures.message.uri5));
 });
 
 test('message from sigil to URI', (t) => {

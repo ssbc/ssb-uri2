@@ -15,6 +15,15 @@ test('message URIs recognized', (t) => {
   t.true(ssbUri.isGabbyGroveV1MessageSSBURI(fixtures.message.uri5));
 });
 
+test('message URI regex', (t) => {
+  t.plan(5);
+  t.true(ssbUri.getMessageSSBURIRegex().test(fixtures.message.uri));
+  t.true(ssbUri.getMessageSSBURIRegex().test(fixtures.message.uri2));
+  t.true(ssbUri.getMessageSSBURIRegex().test(fixtures.message.uri3));
+  t.true(ssbUri.getMessageSSBURIRegex().test(fixtures.message.uri4));
+  t.true(ssbUri.getMessageSSBURIRegex().test(fixtures.message.uri5));
+});
+
 test('message from sigil to URI', (t) => {
   t.plan(1);
   const uri = ssbUri.fromMessageSigil(fixtures.message.sigil);
@@ -36,6 +45,15 @@ test('feed URIs recognized', (t) => {
 
   t.true(ssbUri.isBendyButtV1FeedSSBURI(fixtures.feed.uri4));
   t.true(ssbUri.isGabbyGroveV1FeedSSBURI(fixtures.feed.uri5));
+});
+
+test('feed URI regex', (t) => {
+  t.plan(5);
+  t.true(ssbUri.getFeedSSBURIRegex().test(fixtures.feed.uri));
+  t.true(ssbUri.getFeedSSBURIRegex().test(fixtures.feed.uri2));
+  t.true(ssbUri.getFeedSSBURIRegex().test(fixtures.feed.uri3));
+  t.true(ssbUri.getFeedSSBURIRegex().test(fixtures.feed.uri4));
+  t.true(ssbUri.getFeedSSBURIRegex().test(fixtures.feed.uri5));
 });
 
 test('feed from sigil to URI', (t) => {

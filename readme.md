@@ -55,6 +55,12 @@ ssbUri.toMessageSigil(exampleURI);
 
 ### `isExperimentalSSBURIWithAction(action: string): (uri: string) => boolean`
 
+## Regular Expressions
+
+### `getFeedSSBURIRegex() => RegExp`
+
+### `getMessageSSBURIRegex() => RegExp`
+
 ## Conversion APIs
 
 ### `fromFeedSigil(sigil: string): string`

@@ -1,8 +1,14 @@
 import {BlobId, FeedId, MsgId} from 'ssb-typescript';
 const urlParse = require('url-parse');
 
-type FeedTF = ['feed', 'ed25519'] | ['feed', 'bendybutt-v1'] | ['feed', 'gabbygrove-v1'];
-type MessageTF = ['message', 'sha256'] | ['message', 'bendybutt-v1'] | ['message', 'gabbygrove-v1'];
+type FeedTF =
+  | ['feed', 'ed25519']
+  | ['feed', 'bendybutt-v1']
+  | ['feed', 'gabbygrove-v1'];
+type MessageTF =
+  | ['message', 'sha256']
+  | ['message', 'bendybutt-v1']
+  | ['message', 'gabbygrove-v1'];
 type BlobTF = ['blob', 'sha256'];
 type AddressTF = ['address', 'multiserver'];
 type EncryptionKeyTF = ['encryption-key', 'box2-dm-dh'];
@@ -167,6 +173,32 @@ export function isSSBURI(uri: string | null) {
   );
 }
 
+export function getFeedSSBURIRegex() {
+  const type: FeedTF[0] = 'feed';
+  const format: Array<FeedTF[1]> = ['ed25519', 'bendybutt-v1', 'gabbygrove-v1'];
+  return new RegExp(
+    `ssb:(\/\/)?` +
+      `${type}(\/|:)` +
+      `(${format.join('|')})(\/|:)` +
+      `[a-zA-Z0-9_\-]{43}=`,
+  );
+}
+
+export function getMessageSSBURIRegex() {
+  const type: MessageTF[0] = 'message';
+  const format: Array<MessageTF[1]> = [
+    'sha256',
+    'bendybutt-v1',
+    'gabbygrove-v1',
+  ];
+  return new RegExp(
+    `ssb:(\/\/)?` +
+      `${type}(\/|:)` +
+      `(${format.join('|')})(\/|:)` +
+      `[a-zA-Z0-9_\-]{43}=`,
+  );
+}
+
 type PartsFor<X extends TF> = {
   type: X[0];
   format: X[1];
@@ -187,13 +219,21 @@ function validateParts(parts: Partial<CanonicalParts>) {
   if (!parts.data) throw new Error('Missing required "data" property');
 
   if (parts.type === 'feed') {
-    if (parts.format !== 'ed25519' && parts.format !== 'bendybutt-v1' && parts.format !== 'gabbygrove-v1') {
+    if (
+      parts.format !== 'ed25519' &&
+      parts.format !== 'bendybutt-v1' &&
+      parts.format !== 'gabbygrove-v1'
+    ) {
       throw new Error('Unknown format for type "feed": ' + parts.format);
     } else return;
   }
 
   if (parts.type === 'message') {
-    if (parts.format !== 'sha256' && parts.format !== 'bendybutt-v1' && parts.format !== 'gabbygrove-v1') {
+    if (
+      parts.format !== 'sha256' &&
+      parts.format !== 'bendybutt-v1' &&
+      parts.format !== 'gabbygrove-v1'
+    ) {
       throw new Error('Unknown format for type "message": ' + parts.format);
     } else return;
   }

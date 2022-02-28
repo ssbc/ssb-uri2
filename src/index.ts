@@ -1,5 +1,5 @@
 import {BlobId, FeedId, MsgId} from 'ssb-typescript';
-const urlParse = require('url-parse');
+import {URL} from 'url';
 
 type FeedTF =
   | ['feed', 'ed25519']
@@ -60,26 +60,26 @@ export function fromMultiserverAddress(msaddr: string) {
 
 export function toFeedSigil(uri: string): FeedId | null {
   if (!isFeedSSBURI(uri)) return null;
-  const base64Data = extractBase64Data(urlParse(uri, true).pathname)!;
+  const base64Data = extractBase64Data(new URL(uri).pathname)!;
   if (!base64Data) return null;
   return `@${base64Data}.ed25519`;
 }
 
 export function toMessageSigil(uri: string): MsgId | null {
   if (!isMessageSSBURI(uri)) return null;
-  const base64Data = extractBase64Data(urlParse(uri, true).pathname)!;
+  const base64Data = extractBase64Data(new URL(uri).pathname)!;
   if (!base64Data) return null;
   return `%${base64Data}.sha256`;
 }
 
 export function toBlobSigil(uri: string): BlobId | null {
-  const base64Data = extractBase64Data(urlParse(uri, true).pathname)!;
+  const base64Data = extractBase64Data(new URL(uri).pathname)!;
   if (!base64Data) return null;
   return `&${base64Data}.sha256`;
 }
 
 export function toMultiserverAddress(uri: string): string | null {
-  return urlParse(uri, true).query!.multiserverAddress;
+  return new URL(uri).searchParams.get('multiserverAddress');
 }
 
 function checkTypeFormat(uri: string | null, ...args: TF): boolean {
@@ -88,7 +88,7 @@ function checkTypeFormat(uri: string | null, ...args: TF): boolean {
   return ((uri.startsWith(`ssb:${type}:${format}:`) ||
     uri.startsWith(`ssb:${type}/${format}/`) ||
     uri.startsWith(`ssb://${type}/${format}/`)) &&
-    !!extractBase64Data(urlParse(uri, true).pathname)) as any;
+    !!extractBase64Data(new URL(uri).pathname)) as any;
 }
 
 export function isFeedSSBURI(uri: string | null) {
@@ -125,7 +125,7 @@ export function isAddressSSBURI(uri: string | null) {
     (uri.startsWith('ssb:address:multiserver') ||
       uri.startsWith('ssb:address/multiserver') ||
       uri.startsWith('ssb://address/multiserver')) &&
-    !!urlParse(uri, true).query?.multiserverAddress
+    !!new URL(uri).searchParams.get('multiserverAddress')
   );
 }
 
@@ -150,8 +150,10 @@ export function isExperimentalSSBURI(uri: string | null) {
 
 export function isExperimentalSSBURIWithAction(action: string) {
   return (uri: string | null) => {
+    if (!uri) return false;
     return (
-      isExperimentalSSBURI(uri) && urlParse(uri, true).query?.action === action
+      isExperimentalSSBURI(uri) &&
+      new URL(uri).searchParams.get('action') === action
     );
   };
 }
@@ -272,13 +274,13 @@ export function compose(parts: Partial<CanonicalParts>) {
 }
 
 export function decompose(uri: string): CanonicalParts {
-  const pathname = urlParse(uri, true).pathname;
+  const pathname = new URL(uri).pathname;
   if (!pathname) {
     throw new Error('Invalid SSB URI: ' + uri);
   }
   let [type, format, data] = pathname.split('/');
   data = Base64.safeToUnsafe(data);
-  const parts = {type, format, data};
+  const parts = {type, format, data} as CanonicalParts;
   validateParts(parts);
   return parts;
 }

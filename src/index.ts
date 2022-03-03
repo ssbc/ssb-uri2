@@ -1,5 +1,4 @@
 import {BlobId, FeedId, MsgId} from 'ssb-typescript';
-import {URL} from 'url';
 
 type FeedTF =
   | ['feed', 'ed25519']

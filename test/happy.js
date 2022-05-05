@@ -5,7 +5,7 @@ const fixtures = require('./fixtures');
 const ssbUri = require('../lib');
 
 test('message URIs recognized', (t) => {
-  t.plan(6);
+  t.plan(7);
   t.true(ssbUri.isSSBURI(fixtures.message.uri));
   t.true(ssbUri.isMessageSSBURI(fixtures.message.uri));
   t.true(ssbUri.isMessageSSBURI(fixtures.message.uri2));
@@ -13,15 +13,17 @@ test('message URIs recognized', (t) => {
 
   t.true(ssbUri.isBendyButtV1MessageSSBURI(fixtures.message.uri4));
   t.true(ssbUri.isGabbyGroveV1MessageSSBURI(fixtures.message.uri5));
+  t.true(ssbUri.isButt2V1MessageSSBURI(fixtures.message.uri6));
 });
 
 test('message URI regex', (t) => {
-  t.plan(5);
+  t.plan(6);
   t.true(ssbUri.getMessageSSBURIRegex().test(fixtures.message.uri));
   t.true(ssbUri.getMessageSSBURIRegex().test(fixtures.message.uri2));
   t.true(ssbUri.getMessageSSBURIRegex().test(fixtures.message.uri3));
   t.true(ssbUri.getMessageSSBURIRegex().test(fixtures.message.uri4));
   t.true(ssbUri.getMessageSSBURIRegex().test(fixtures.message.uri5));
+  t.true(ssbUri.getMessageSSBURIRegex().test(fixtures.message.uri6));
 });
 
 test('message from sigil to URI', (t) => {
@@ -37,7 +39,7 @@ test('message from URI to sigil', (t) => {
 });
 
 test('feed URIs recognized', (t) => {
-  t.plan(6);
+  t.plan(7);
   t.true(ssbUri.isSSBURI(fixtures.feed.uri));
   t.true(ssbUri.isFeedSSBURI(fixtures.feed.uri));
   t.true(ssbUri.isFeedSSBURI(fixtures.feed.uri2));
@@ -45,15 +47,17 @@ test('feed URIs recognized', (t) => {
 
   t.true(ssbUri.isBendyButtV1FeedSSBURI(fixtures.feed.uri4));
   t.true(ssbUri.isGabbyGroveV1FeedSSBURI(fixtures.feed.uri5));
+  t.true(ssbUri.isButt2V1FeedSSBURI(fixtures.feed.uri6));
 });
 
 test('feed URI regex', (t) => {
-  t.plan(5);
+  t.plan(6);
   t.true(ssbUri.getFeedSSBURIRegex().test(fixtures.feed.uri));
   t.true(ssbUri.getFeedSSBURIRegex().test(fixtures.feed.uri2));
   t.true(ssbUri.getFeedSSBURIRegex().test(fixtures.feed.uri3));
   t.true(ssbUri.getFeedSSBURIRegex().test(fixtures.feed.uri4));
   t.true(ssbUri.getFeedSSBURIRegex().test(fixtures.feed.uri5));
+  t.true(ssbUri.getFeedSSBURIRegex().test(fixtures.feed.uri6));
 });
 
 test('feed from sigil to URI', (t) => {

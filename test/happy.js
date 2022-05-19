@@ -13,7 +13,7 @@ test('message URIs recognized', (t) => {
 
   t.true(ssbUri.isBendyButtV1MessageSSBURI(fixtures.message.uri4));
   t.true(ssbUri.isGabbyGroveV1MessageSSBURI(fixtures.message.uri5));
-  t.true(ssbUri.isButt2V1MessageSSBURI(fixtures.message.uri6));
+  t.true(ssbUri.isButtwooV1MessageSSBURI(fixtures.message.uri6));
 });
 
 test('message URI regex', (t) => {
@@ -47,7 +47,7 @@ test('feed URIs recognized', (t) => {
 
   t.true(ssbUri.isBendyButtV1FeedSSBURI(fixtures.feed.uri4));
   t.true(ssbUri.isGabbyGroveV1FeedSSBURI(fixtures.feed.uri5));
-  t.true(ssbUri.isButt2V1FeedSSBURI(fixtures.feed.uri6));
+  t.true(ssbUri.isButtwooV1FeedSSBURI(fixtures.feed.uri6));
 });
 
 test('feed URI regex', (t) => {

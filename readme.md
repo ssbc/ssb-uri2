@@ -79,11 +79,13 @@ ssbUri.toMessageSigil(exampleURI);
 
 ### `toMultiserverAddress(uri: string): string | null`
 
-### `compose(parts: {type, format, data}): string`
+### `compose(parts: {type, format, data, extraData}): string`
 
-### `decompose(uri: string): {type, format, data}`
+### `decompose(uri: string): {type, format, data, extraData}`
 
 The object `{type, format, data}` is such that it matches `ssb:${type}/${format}/${data}`, except the `data` is always in normal Base64 (i.e. **not** URI safe).
+
+There is also the case of `extraData` for special URIs such as `ssb:feed/buttwoo-v1/${data}/${extraData}`.
 
 ## License
 

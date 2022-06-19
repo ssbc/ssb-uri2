@@ -37,3 +37,17 @@ test('compose() a feed URI', (t) => {
   });
   t.equals(uri, fixtures.feed.uri);
 });
+
+test('compose() a feed URI with extra data', (t) => {
+  t.plan(2);
+  const parts = {
+    type: 'feed',
+    format: 'buttwoo-v1',
+    data: 'FY5OG311W4j/KPh8H9B2MZt4WSziy/p+ABkKERJdujQ=',
+    extraData: 'Z0rMVMDEO1Aj0uPl0/J2NlhFB2bbFLIHlty/YuqArFq=',
+  };
+  const uri = ssbUri.compose(parts);
+  t.equals(uri, fixtures.feed.uri7);
+  const parts2 = ssbUri.decompose(uri);
+  t.deepEqual(parts2, parts);
+});

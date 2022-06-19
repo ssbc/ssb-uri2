@@ -1,5 +1,6 @@
 //@ts-check
 const test = require('tape');
+// @ts-ignore
 const Ref = require('ssb-ref');
 const fixtures = require('./fixtures');
 const ssbUri = require('../lib');
@@ -39,7 +40,7 @@ test('message from URI to sigil', (t) => {
 });
 
 test('feed URIs recognized', (t) => {
-  t.plan(7);
+  t.plan(8);
   t.true(ssbUri.isSSBURI(fixtures.feed.uri));
   t.true(ssbUri.isFeedSSBURI(fixtures.feed.uri));
   t.true(ssbUri.isFeedSSBURI(fixtures.feed.uri2));
@@ -48,16 +49,46 @@ test('feed URIs recognized', (t) => {
   t.true(ssbUri.isBendyButtV1FeedSSBURI(fixtures.feed.uri4));
   t.true(ssbUri.isGabbyGroveV1FeedSSBURI(fixtures.feed.uri5));
   t.true(ssbUri.isButtwooV1FeedSSBURI(fixtures.feed.uri6));
+  t.true(ssbUri.isButtwooV1FeedSSBURI(fixtures.feed.uri7));
 });
 
 test('feed URI regex', (t) => {
-  t.plan(6);
-  t.true(ssbUri.getFeedSSBURIRegex().test(fixtures.feed.uri));
-  t.true(ssbUri.getFeedSSBURIRegex().test(fixtures.feed.uri2));
-  t.true(ssbUri.getFeedSSBURIRegex().test(fixtures.feed.uri3));
-  t.true(ssbUri.getFeedSSBURIRegex().test(fixtures.feed.uri4));
-  t.true(ssbUri.getFeedSSBURIRegex().test(fixtures.feed.uri5));
-  t.true(ssbUri.getFeedSSBURIRegex().test(fixtures.feed.uri6));
+  t.plan(7);
+  t.equals(
+    // @ts-ignore
+    ssbUri.getFeedSSBURIRegex().exec(fixtures.feed.uri)[0],
+    fixtures.feed.uri,
+  );
+  t.equals(
+    // @ts-ignore
+    ssbUri.getFeedSSBURIRegex().exec(fixtures.feed.uri2)[0],
+    fixtures.feed.uri2,
+  );
+  t.equals(
+    // @ts-ignore
+    ssbUri.getFeedSSBURIRegex().exec(fixtures.feed.uri3)[0],
+    fixtures.feed.uri3,
+  );
+  t.equals(
+    // @ts-ignore
+    ssbUri.getFeedSSBURIRegex().exec(fixtures.feed.uri4)[0],
+    fixtures.feed.uri4,
+  );
+  t.equals(
+    // @ts-ignore
+    ssbUri.getFeedSSBURIRegex().exec(fixtures.feed.uri5)[0],
+    fixtures.feed.uri5,
+  );
+  t.equals(
+    // @ts-ignore
+    ssbUri.getFeedSSBURIRegex().exec(fixtures.feed.uri6)[0],
+    fixtures.feed.uri6,
+  );
+  t.equal(
+    // @ts-ignore
+    ssbUri.getFeedSSBURIRegex().exec(fixtures.feed.uri7)[0],
+    fixtures.feed.uri7,
+  );
 });
 
 test('feed from sigil to URI', (t) => {

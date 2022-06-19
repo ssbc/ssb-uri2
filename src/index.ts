@@ -188,13 +188,25 @@ export function isSSBURI(uri: string | null) {
 
 export function getFeedSSBURIRegex() {
   const type: FeedTF[0] = 'feed';
-  const format: Array<FeedTF[1]> = ['ed25519', 'bendybutt-v1', 'gabbygrove-v1', 'buttwoo-v1'];
-  return new RegExp(
+  const formatsWith3Parts: Array<FeedTF[1]> = [
+    'ed25519',
+    'bendybutt-v1',
+    'gabbygrove-v1',
+    'buttwoo-v1',
+  ];
+  const formatsWith4Parts: Array<FeedTF[1]> = ['buttwoo-v1'];
+  const ruleWith3 =
     `ssb:(\/\/)?` +
-      `${type}(\/|:)` +
-      `(${format.join('|')})(\/|:)` +
-      `[a-zA-Z0-9_\-]{43}=`,
-  );
+    `${type}(\/|:)` +
+    `(${formatsWith3Parts.join('|')})(\/|:)` +
+    `[a-zA-Z0-9_\-]{43}=`;
+  const ruleWith4 =
+    `ssb:(\/\/)?` +
+    `${type}(\/|:)` +
+    `(${formatsWith4Parts.join('|')})(\/|:)` +
+    `[a-zA-Z0-9_\-]{43}=(\/|:)` +
+    `[a-zA-Z0-9_\-]{43}=`;
+  return new RegExp(`(${ruleWith4}|${ruleWith3})`);
 }
 
 export function getMessageSSBURIRegex() {
@@ -203,7 +215,7 @@ export function getMessageSSBURIRegex() {
     'sha256',
     'bendybutt-v1',
     'gabbygrove-v1',
-    'buttwoo-v1'
+    'buttwoo-v1',
   ];
   return new RegExp(
     `ssb:(\/\/)?` +
@@ -217,6 +229,7 @@ type PartsFor<X extends TF> = {
   type: X[0];
   format: X[1];
   data: string;
+  extraData?: string;
 };
 
 type CanonicalParts =
@@ -283,8 +296,14 @@ function validateParts(parts: Partial<CanonicalParts>) {
 
 export function compose(parts: Partial<CanonicalParts>) {
   validateParts(parts as Partial<CanonicalParts>);
-  const {type, format, data} = parts as CanonicalParts;
-  return `ssb:${type}/${format}/${Base64.unsafeToSafe(data)}`;
+  const {type, format, data, extraData} = parts as CanonicalParts;
+  const safeData = Base64.unsafeToSafe(data);
+  if (extraData) {
+    const safeExtraData = Base64.unsafeToSafe(extraData);
+    return `ssb:${type}/${format}/${safeData}/${safeExtraData}`;
+  } else {
+    return `ssb:${type}/${format}/${safeData}`;
+  }
 }
 
 export function decompose(uri: string): CanonicalParts {
@@ -292,9 +311,10 @@ export function decompose(uri: string): CanonicalParts {
   if (!pathname) {
     throw new Error('Invalid SSB URI: ' + uri);
   }
-  let [type, format, data] = pathname.split('/');
-  data = Base64.safeToUnsafe(data);
+  const [type, format, safeData, safeExtraData] = pathname.split('/');
+  const data = Base64.safeToUnsafe(safeData);
   const parts = {type, format, data} as CanonicalParts;
   validateParts(parts);
+  if (safeExtraData) parts.extraData = Base64.safeToUnsafe(safeExtraData);
   return parts;
 }

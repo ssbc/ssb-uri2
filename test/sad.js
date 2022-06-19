@@ -105,6 +105,7 @@ test('compose() missing data', (t) => {
 test('compose() got bad format for type feed', (t) => {
   t.plan(1);
   t.throws(
+    // @ts-ignore
     () => ssbUri.compose({type: 'feed', format: 'lols', data: 'ABCDE'}),
     /Unknown format for type/,
   );
@@ -113,6 +114,7 @@ test('compose() got bad format for type feed', (t) => {
 test('compose() got bad format for type message', (t) => {
   t.plan(1);
   t.throws(
+    // @ts-ignore
     () => ssbUri.compose({type: 'message', format: 'lols', data: 'ABCDE'}),
     /Unknown format for type/,
   );
@@ -121,6 +123,7 @@ test('compose() got bad format for type message', (t) => {
 test('compose() got bad format for type blob', (t) => {
   t.plan(1);
   t.throws(
+    // @ts-ignore
     () => ssbUri.compose({type: 'blob', format: 'lols', data: 'ABCDE'}),
     /Unknown format for type/,
   );
@@ -129,6 +132,7 @@ test('compose() got bad format for type blob', (t) => {
 test('compose() got bad format for type address', (t) => {
   t.plan(1);
   t.throws(
+    // @ts-ignore
     () => ssbUri.compose({type: 'address', format: 'lols', data: 'ABCDE'}),
     /Unknown format for type/,
   );
@@ -138,6 +142,7 @@ test('compose() got bad format for type encryption-key', (t) => {
   t.plan(1);
   t.throws(
     () =>
+      // @ts-ignore
       ssbUri.compose({type: 'encryption-key', format: 'lols', data: 'ABCDE'}),
     /Unknown format for type/,
   );
@@ -146,6 +151,7 @@ test('compose() got bad format for type encryption-key', (t) => {
 test('compose() got bad format for type identity', (t) => {
   t.plan(1);
   t.throws(
+    // @ts-ignore
     () => ssbUri.compose({type: 'identity', format: 'lols', data: 'ABCDE'}),
     /Unknown format for type/,
   );

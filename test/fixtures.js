@@ -19,6 +19,7 @@ module.exports.feed = {
   uri4: 'ssb:feed/bendybutt-v1/APaWWDs8g73EZFUMfW37RBULtFEjwKNbDczvdYiRXtA=',
   uri5: 'ssb:feed/gabbygrove-v1/FY5OG311W4j_KPh8H9B2MZt4WSziy_p-ABkKERJdujQ=',
   uri6: 'ssb:feed/buttwoo-v1/FY5OG311W4j_KPh8H9B2MZt4WSziy_p-ABkKERJdujQ=',
+  uri7: 'ssb:feed/buttwoo-v1/FY5OG311W4j_KPh8H9B2MZt4WSziy_p-ABkKERJdujQ=/Z0rMVMDEO1Aj0uPl0_J2NlhFB2bbFLIHlty_YuqArFq=',
 };
 
 module.exports.blob = {
@@ -29,7 +30,8 @@ module.exports.blob = {
 };
 
 module.exports.address = {
-  multiserver: 'net:wx.larpa.net:8008~shs:DTNmX+4SjsgZ7xyDh5xxmNtFqa6pWi5Qtw7cE8aR9TQ=',
+  multiserver:
+    'net:wx.larpa.net:8008~shs:DTNmX+4SjsgZ7xyDh5xxmNtFqa6pWi5Qtw7cE8aR9TQ=',
   uri: 'ssb:address/multiserver?multiserverAddress=net%3Awx.larpa.net%3A8008~shs%3ADTNmX%2B4SjsgZ7xyDh5xxmNtFqa6pWi5Qtw7cE8aR9TQ%3D',
   uri2: 'ssb:address:multiserver?multiserverAddress=net%3Awx.larpa.net%3A8008~shs%3ADTNmX%2B4SjsgZ7xyDh5xxmNtFqa6pWi5Qtw7cE8aR9TQ%3D',
   uri3: 'ssb://address/multiserver?multiserverAddress=net%3Awx.larpa.net%3A8008~shs%3ADTNmX%2B4SjsgZ7xyDh5xxmNtFqa6pWi5Qtw7cE8aR9TQ%3D',

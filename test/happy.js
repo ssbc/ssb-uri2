@@ -8,9 +8,9 @@ const ssbUri = require('../lib');
 test('message URIs recognized', (t) => {
   t.plan(7);
   t.true(ssbUri.isSSBURI(fixtures.message.uri));
-  t.true(ssbUri.isMessageSSBURI(fixtures.message.uri));
-  t.true(ssbUri.isMessageSSBURI(fixtures.message.uri2));
-  t.true(ssbUri.isMessageSSBURI(fixtures.message.uri3));
+  t.true(ssbUri.isClassicMessageSSBURI(fixtures.message.uri));
+  t.true(ssbUri.isClassicMessageSSBURI(fixtures.message.uri2));
+  t.true(ssbUri.isClassicMessageSSBURI(fixtures.message.uri3));
 
   t.true(ssbUri.isBendyButtV1MessageSSBURI(fixtures.message.uri4));
   t.true(ssbUri.isGabbyGroveV1MessageSSBURI(fixtures.message.uri5));
@@ -42,9 +42,9 @@ test('message from URI to sigil', (t) => {
 test('feed URIs recognized', (t) => {
   t.plan(8);
   t.true(ssbUri.isSSBURI(fixtures.feed.uri));
-  t.true(ssbUri.isFeedSSBURI(fixtures.feed.uri));
-  t.true(ssbUri.isFeedSSBURI(fixtures.feed.uri2));
-  t.true(ssbUri.isFeedSSBURI(fixtures.feed.uri3));
+  t.true(ssbUri.isClassicFeedSSBURI(fixtures.feed.uri));
+  t.true(ssbUri.isClassicFeedSSBURI(fixtures.feed.uri2));
+  t.true(ssbUri.isClassicFeedSSBURI(fixtures.feed.uri3));
 
   t.true(ssbUri.isBendyButtV1FeedSSBURI(fixtures.feed.uri4));
   t.true(ssbUri.isGabbyGroveV1FeedSSBURI(fixtures.feed.uri5));
@@ -106,9 +106,9 @@ test('feed from URI to sigil', (t) => {
 test('blob URIs recognized', (t) => {
   t.plan(4);
   t.true(ssbUri.isSSBURI(fixtures.blob.uri));
-  t.true(ssbUri.isBlobSSBURI(fixtures.blob.uri));
-  t.true(ssbUri.isBlobSSBURI(fixtures.blob.uri2));
-  t.true(ssbUri.isBlobSSBURI(fixtures.blob.uri3));
+  t.true(ssbUri.isClassicBlobSSBURI(fixtures.blob.uri));
+  t.true(ssbUri.isClassicBlobSSBURI(fixtures.blob.uri2));
+  t.true(ssbUri.isClassicBlobSSBURI(fixtures.blob.uri3));
 });
 
 test('blob from sigil to URI', (t) => {

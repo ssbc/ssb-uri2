@@ -5,7 +5,7 @@ const ssbUri = require('../lib');
 
 test('message URI not recognized as feed URI', (t) => {
   t.plan(1);
-  t.false(ssbUri.isFeedSSBURI(fixtures.message.uri));
+  t.false(ssbUri.isClassicFeedSSBURI(fixtures.message.uri));
 });
 
 test('bendybutt message URI cannot be converted to sigil', (t) => {
@@ -20,17 +20,17 @@ test('gabbygrove message URI cannot be converted to sigil', (t) => {
 
 test('falsy input not recognized as feed', (t) => {
   t.plan(1);
-  t.false(ssbUri.isFeedSSBURI(null));
+  t.false(ssbUri.isClassicFeedSSBURI(null));
 });
 
 test('falsy input not recognized as message', (t) => {
   t.plan(1);
-  t.false(ssbUri.isMessageSSBURI(null));
+  t.false(ssbUri.isClassicMessageSSBURI(null));
 });
 
 test('falsy input not recognized as blob', (t) => {
   t.plan(1);
-  t.false(ssbUri.isBlobSSBURI(null));
+  t.false(ssbUri.isClassicBlobSSBURI(null));
 });
 
 test('falsy input not recognized as address', (t) => {
@@ -45,7 +45,7 @@ test('falsy input not recognized as experimental', (t) => {
 
 test('invalid SSB URI input not recognized', (t) => {
   t.plan(1);
-  t.false(ssbUri.isFeedSSBURI('ssb:feed/ed25519/'));
+  t.false(ssbUri.isClassicFeedSSBURI('ssb:feed/ed25519/'));
 });
 
 test('invalid feed SSB URI cannot be converted to sigil', (t) => {

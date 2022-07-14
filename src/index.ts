@@ -1,16 +1,18 @@
 import {BlobId, FeedId, MsgId} from 'ssb-typescript';
 
 type FeedTF =
+  | ['feed', 'classic']
   | ['feed', 'ed25519']
   | ['feed', 'bendybutt-v1']
   | ['feed', 'gabbygrove-v1']
   | ['feed', 'buttwoo-v1'];
 type MessageTF =
+  | ['message', 'classic']
   | ['message', 'sha256']
   | ['message', 'bendybutt-v1']
   | ['message', 'gabbygrove-v1']
   | ['message', 'buttwoo-v1'];
-type BlobTF = ['blob', 'sha256'];
+type BlobTF = ['blob', 'classic'] | ['blob', 'sha256'];
 type AddressTF = ['address', 'multiserver'];
 type EncryptionKeyTF = ['encryption-key', 'box2-dm-dh'];
 type IdentityTF = ['identity', 'po-box'] | ['identity', 'fusion'];
@@ -41,17 +43,17 @@ function extractBase64Data(pathname: string | null): string | null {
 
 export function fromFeedSigil(sigil: FeedId) {
   const data = Base64.unsafeToSafe(sigil.slice(1, -8));
-  return `ssb:feed/ed25519/${data}`;
+  return `ssb:feed/classic/${data}`;
 }
 
 export function fromMessageSigil(sigil: MsgId) {
   const data = Base64.unsafeToSafe(sigil.slice(1, -7));
-  return `ssb:message/sha256/${data}`;
+  return `ssb:message/classic/${data}`;
 }
 
 export function fromBlobSigil(sigil: BlobId) {
   const data = Base64.unsafeToSafe(sigil.slice(1, -7));
-  return `ssb:blob/sha256/${data}`;
+  return `ssb:blob/classic/${data}`;
 }
 
 export function fromMultiserverAddress(msaddr: string) {
@@ -60,20 +62,21 @@ export function fromMultiserverAddress(msaddr: string) {
 }
 
 export function toFeedSigil(uri: string): FeedId | null {
-  if (!isFeedSSBURI(uri)) return null;
+  if (!isClassicFeedSSBURI(uri)) return null;
   const base64Data = extractBase64Data(new URL(uri).pathname)!;
   if (!base64Data) return null;
   return `@${base64Data}.ed25519`;
 }
 
 export function toMessageSigil(uri: string): MsgId | null {
-  if (!isMessageSSBURI(uri)) return null;
+  if (!isClassicMessageSSBURI(uri)) return null;
   const base64Data = extractBase64Data(new URL(uri).pathname)!;
   if (!base64Data) return null;
   return `%${base64Data}.sha256`;
 }
 
 export function toBlobSigil(uri: string): BlobId | null {
+  if (!isClassicBlobSSBURI(uri)) return null;
   const base64Data = extractBase64Data(new URL(uri).pathname)!;
   if (!base64Data) return null;
   return `&${base64Data}.sha256`;
@@ -92,8 +95,11 @@ function checkTypeFormat(uri: string | null, ...args: TF): boolean {
     !!extractBase64Data(new URL(uri).pathname)) as any;
 }
 
-export function isFeedSSBURI(uri: string | null) {
-  return checkTypeFormat(uri, 'feed', 'ed25519');
+export function isClassicFeedSSBURI(uri: string | null) {
+  return (
+    checkTypeFormat(uri, 'feed', 'classic') ||
+    checkTypeFormat(uri, 'feed', 'ed25519')
+  );
 }
 
 export function isBendyButtV1FeedSSBURI(uri: string | null) {
@@ -108,8 +114,11 @@ export function isButtwooV1FeedSSBURI(uri: string | null) {
   return checkTypeFormat(uri, 'feed', 'buttwoo-v1');
 }
 
-export function isMessageSSBURI(uri: string | null) {
-  return checkTypeFormat(uri, 'message', 'sha256');
+export function isClassicMessageSSBURI(uri: string | null) {
+  return (
+    checkTypeFormat(uri, 'message', 'classic') ||
+    checkTypeFormat(uri, 'message', 'sha256')
+  );
 }
 
 export function isBendyButtV1MessageSSBURI(uri: string | null) {
@@ -124,8 +133,11 @@ export function isButtwooV1MessageSSBURI(uri: string | null) {
   return checkTypeFormat(uri, 'message', 'buttwoo-v1');
 }
 
-export function isBlobSSBURI(uri: string | null) {
-  return checkTypeFormat(uri, 'blob', 'sha256');
+export function isClassicBlobSSBURI(uri: string | null) {
+  return (
+    checkTypeFormat(uri, 'blob', 'classic') ||
+    checkTypeFormat(uri, 'blob', 'sha256')
+  );
 }
 
 export function isAddressSSBURI(uri: string | null) {
@@ -169,15 +181,15 @@ export function isExperimentalSSBURIWithAction(action: string) {
 
 export function isSSBURI(uri: string | null) {
   return (
-    isFeedSSBURI(uri) ||
+    isClassicFeedSSBURI(uri) ||
     isBendyButtV1FeedSSBURI(uri) ||
     isGabbyGroveV1FeedSSBURI(uri) ||
     isButtwooV1FeedSSBURI(uri) ||
-    isMessageSSBURI(uri) ||
+    isClassicMessageSSBURI(uri) ||
     isBendyButtV1MessageSSBURI(uri) ||
     isGabbyGroveV1MessageSSBURI(uri) ||
     isButtwooV1MessageSSBURI(uri) ||
-    isBlobSSBURI(uri) ||
+    isClassicBlobSSBURI(uri) ||
     isAddressSSBURI(uri) ||
     isEncryptionKeyBox2DMDiffieHellmanSSBURI(uri) ||
     isIdentityPOBoxSSBURI(uri) ||
@@ -189,6 +201,7 @@ export function isSSBURI(uri: string | null) {
 export function getFeedSSBURIRegex() {
   const type: FeedTF[0] = 'feed';
   const formatsWith3Parts: Array<FeedTF[1]> = [
+    'classic',
     'ed25519',
     'bendybutt-v1',
     'gabbygrove-v1',
@@ -212,6 +225,7 @@ export function getFeedSSBURIRegex() {
 export function getMessageSSBURIRegex() {
   const type: MessageTF[0] = 'message';
   const format: Array<MessageTF[1]> = [
+    'classic',
     'sha256',
     'bendybutt-v1',
     'gabbygrove-v1',
@@ -240,57 +254,77 @@ type CanonicalParts =
   | PartsFor<EncryptionKeyTF>
   | PartsFor<IdentityTF>;
 
-function validateParts(parts: Partial<CanonicalParts>) {
-  if (!parts.type) throw new Error('Missing required "type" property');
-  if (!parts.format) throw new Error('Missing required "format" property');
-  if (!parts.data) throw new Error('Missing required "data" property');
+function validateParts({type, format, data}: Partial<CanonicalParts>) {
+  if (!type) throw new Error('Missing required "type" property');
+  if (!format) throw new Error('Missing required "format" property');
+  if (!data) throw new Error('Missing required "data" property');
 
-  if (parts.type === 'feed') {
+  if (type === 'feed') {
     if (
-      parts.format !== 'ed25519' &&
-      parts.format !== 'bendybutt-v1' &&
-      parts.format !== 'gabbygrove-v1' &&
-      parts.format !== 'buttwoo-v1'
+      format !== 'classic' &&
+      format !== 'ed25519' &&
+      format !== 'bendybutt-v1' &&
+      format !== 'gabbygrove-v1' &&
+      format !== 'buttwoo-v1'
     ) {
-      throw new Error('Unknown format for type "feed": ' + parts.format);
+      throw new Error('Unknown format for type "feed": ' + format);
     } else return;
   }
 
-  if (parts.type === 'message') {
+  if (type === 'message') {
     if (
-      parts.format !== 'sha256' &&
-      parts.format !== 'bendybutt-v1' &&
-      parts.format !== 'gabbygrove-v1' &&
-      parts.format !== 'buttwoo-v1'
+      format !== 'classic' &&
+      format !== 'sha256' &&
+      format !== 'bendybutt-v1' &&
+      format !== 'gabbygrove-v1' &&
+      format !== 'buttwoo-v1'
     ) {
-      throw new Error('Unknown format for type "message": ' + parts.format);
+      throw new Error('Unknown format for type "message": ' + format);
     } else return;
   }
 
-  if (parts.type === 'blob') {
-    if (parts.format !== 'sha256') {
-      throw new Error('Unknown format for type "blob": ' + parts.format);
+  if (type === 'blob') {
+    if (format !== 'classic' && format !== 'sha256') {
+      throw new Error('Unknown format for type "blob": ' + format);
     } else return;
   }
 
-  if (parts.type === 'address') {
-    if (parts.format !== 'multiserver') {
-      throw new Error('Unknown format for type "address": ' + parts.format);
+  if (type === 'address') {
+    if (format !== 'multiserver') {
+      throw new Error('Unknown format for type "address": ' + format);
     } else return;
   }
 
-  if (parts.type === 'encryption-key') {
-    if (parts.format !== 'box2-dm-dh') {
-      throw new Error(
-        'Unknown format for type "encryption-key": ' + parts.format,
-      );
+  if (type === 'encryption-key') {
+    if (format !== 'box2-dm-dh') {
+      throw new Error('Unknown format for type "encryption-key": ' + format);
     } else return;
   }
 
-  if (parts.type === 'identity') {
-    if (parts.format !== 'po-box' && parts.format !== 'fusion') {
-      throw new Error('Unknown format for type "identity": ' + parts.format);
+  if (type === 'identity') {
+    if (format !== 'po-box' && format !== 'fusion') {
+      throw new Error('Unknown format for type "identity": ' + format);
     } else return;
+  }
+}
+
+/**
+ * *Mutates* the `parts` object to avoid deprecated URIs.
+ * @param parts
+ */
+function fixParts(parts: Partial<CanonicalParts>) {
+  const {type, format} = parts;
+  if (type === 'feed' && format === 'ed25519') {
+    parts.format = 'classic';
+    return;
+  }
+  if (type === 'message' && format === 'sha256') {
+    parts.format = 'classic';
+    return;
+  }
+  if (type === 'blob' && format === 'sha256') {
+    parts.format = 'classic';
+    return;
   }
 }
 
@@ -315,6 +349,7 @@ export function decompose(uri: string): CanonicalParts {
   const data = Base64.safeToUnsafe(safeData);
   const parts = {type, format, data} as CanonicalParts;
   validateParts(parts);
+  fixParts(parts);
   if (safeExtraData) parts.extraData = Base64.safeToUnsafe(safeExtraData);
   return parts;
 }

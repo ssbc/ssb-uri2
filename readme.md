@@ -16,9 +16,9 @@ npm install ssb-uri2
 const ssbUri = require('ssb-uri2');
 
 const exampleURI =
-  'ssb:message/sha256/g3hPVPDEO1Aj_uPl0-J2NlhFB2bbFLIHlty-YuqFZ3w=';
+  'ssb:message/classic/g3hPVPDEO1Aj_uPl0-J2NlhFB2bbFLIHlty-YuqFZ3w=';
 
-ssbUri.isMessageSSBURI(exampleURI);
+ssbUri.isClassicMessageSSBURI(exampleURI);
 // true
 
 ssbUri.toMessageSigil(exampleURI);
@@ -29,19 +29,19 @@ ssbUri.toMessageSigil(exampleURI);
 
 ### `isSSBURI(uri: string | uri): boolean`
 
-### `isFeedSSBURI(uri: string | null): boolean`
+### `isClassicFeedSSBURI(uri: string | null): boolean`
 
 ### `isBendyButtV1FeedSSBURI(uri: string | null): boolean`
 
 ### `isGabbyGroveV1FeedSSBURI(uri: string | null): boolean`
 
-### `isMessageSSBURI(uri: string | null): boolean`
+### `isClassicMessageSSBURI(uri: string | null): boolean`
 
 ### `isBendyButtV1MessageSSBURI(uri: string | null): boolean`
 
 ### `isGabbyGroveV1MessageSSBURI(uri: string | null): boolean`
 
-### `isBlobSSBURI(uri: string | null): boolean`
+### `isClassicBlobSSBURI(uri: string | null): boolean`
 
 ### `isAddressSSBURI(uri: string | null): boolean`
 

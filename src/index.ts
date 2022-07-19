@@ -341,10 +341,11 @@ export function compose(parts: Partial<CanonicalParts>) {
 }
 
 export function decompose(uri: string): CanonicalParts {
-  const pathname = new URL(uri).pathname;
-  if (!pathname) {
+  if (uri.length < 5) {
     throw new Error('Invalid SSB URI: ' + uri);
   }
+
+  const pathname = uri.substring(4);
   const [type, format, safeData, safeExtraData] = pathname.split('/');
   const data = Base64.safeToUnsafe(safeData);
   const parts = {type, format, data} as CanonicalParts;

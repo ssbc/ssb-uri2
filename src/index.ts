@@ -5,13 +5,15 @@ type FeedTF =
   | ['feed', 'ed25519']
   | ['feed', 'bendybutt-v1']
   | ['feed', 'gabbygrove-v1']
-  | ['feed', 'buttwoo-v1'];
+  | ['feed', 'buttwoo-v1']
+  | ['feed', 'indexed-v1'];
 type MessageTF =
   | ['message', 'classic']
   | ['message', 'sha256']
   | ['message', 'bendybutt-v1']
   | ['message', 'gabbygrove-v1']
-  | ['message', 'buttwoo-v1'];
+  | ['message', 'buttwoo-v1']
+  | ['message', 'indexed-v1'];
 type BlobTF = ['blob', 'classic'] | ['blob', 'sha256'];
 type AddressTF = ['address', 'multiserver'];
 type EncryptionKeyTF = ['encryption-key', 'box2-dm-dh'];
@@ -114,6 +116,10 @@ export function isButtwooV1FeedSSBURI(uri: string | null) {
   return checkTypeFormat(uri, 'feed', 'buttwoo-v1');
 }
 
+export function isIndexedV1FeedSSBURI(uri: string | null) {
+  return checkTypeFormat(uri, 'feed', 'indexed-v1');
+}
+
 export function isClassicMessageSSBURI(uri: string | null) {
   return (
     checkTypeFormat(uri, 'message', 'classic') ||
@@ -131,6 +137,10 @@ export function isGabbyGroveV1MessageSSBURI(uri: string | null) {
 
 export function isButtwooV1MessageSSBURI(uri: string | null) {
   return checkTypeFormat(uri, 'message', 'buttwoo-v1');
+}
+
+export function isIndexedV1MessageSSBURI(uri: string | null) {
+  return checkTypeFormat(uri, 'message', 'indexed-v1');
 }
 
 export function isClassicBlobSSBURI(uri: string | null) {
@@ -185,10 +195,12 @@ export function isSSBURI(uri: string | null) {
     isBendyButtV1FeedSSBURI(uri) ||
     isGabbyGroveV1FeedSSBURI(uri) ||
     isButtwooV1FeedSSBURI(uri) ||
+    isIndexedV1FeedSSBURI(uri) ||
     isClassicMessageSSBURI(uri) ||
     isBendyButtV1MessageSSBURI(uri) ||
     isGabbyGroveV1MessageSSBURI(uri) ||
     isButtwooV1MessageSSBURI(uri) ||
+    isIndexedV1MessageSSBURI(uri) ||
     isClassicBlobSSBURI(uri) ||
     isAddressSSBURI(uri) ||
     isEncryptionKeyBox2DMDiffieHellmanSSBURI(uri) ||
@@ -206,6 +218,7 @@ export function getFeedSSBURIRegex() {
     'bendybutt-v1',
     'gabbygrove-v1',
     'buttwoo-v1',
+    'indexed-v1',
   ];
   const formatsWith4Parts: Array<FeedTF[1]> = ['buttwoo-v1'];
   const ruleWith3 =
@@ -230,6 +243,7 @@ export function getMessageSSBURIRegex() {
     'bendybutt-v1',
     'gabbygrove-v1',
     'buttwoo-v1',
+    'indexed-v1',
   ];
   return new RegExp(
     `ssb:(\/\/)?` +
@@ -265,7 +279,8 @@ function validateParts({type, format, data}: Partial<CanonicalParts>) {
       format !== 'ed25519' &&
       format !== 'bendybutt-v1' &&
       format !== 'gabbygrove-v1' &&
-      format !== 'buttwoo-v1'
+      format !== 'buttwoo-v1' &&
+      format !== 'indexed-v1'
     ) {
       throw new Error('Unknown format for type "feed": ' + format);
     } else return;
@@ -277,7 +292,8 @@ function validateParts({type, format, data}: Partial<CanonicalParts>) {
       format !== 'sha256' &&
       format !== 'bendybutt-v1' &&
       format !== 'gabbygrove-v1' &&
-      format !== 'buttwoo-v1'
+      format !== 'buttwoo-v1' &&
+      format !== 'indexed-v1'
     ) {
       throw new Error('Unknown format for type "message": ' + format);
     } else return;

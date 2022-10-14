@@ -120,6 +120,16 @@ export function isIndexedV1FeedSSBURI(uri: string | null) {
   return checkTypeFormat(uri, 'feed', 'indexed-v1');
 }
 
+export function isFeedSSBURI(uri: string | null) {
+  return (
+    isClassicFeedSSBURI(uri) ||
+    isBendyButtV1FeedSSBURI(uri) ||
+    isGabbyGroveV1FeedSSBURI(uri) ||
+    isButtwooV1FeedSSBURI(uri) ||
+    isIndexedV1FeedSSBURI(uri)
+  )
+}
+
 export function isClassicMessageSSBURI(uri: string | null) {
   return (
     checkTypeFormat(uri, 'message', 'classic') ||
@@ -141,6 +151,16 @@ export function isButtwooV1MessageSSBURI(uri: string | null) {
 
 export function isIndexedV1MessageSSBURI(uri: string | null) {
   return checkTypeFormat(uri, 'message', 'indexed-v1');
+}
+
+export function isMessageSSBURI(uri: string | null) {
+  return (
+    isClassicMessageSSBURI(uri) ||
+    isBendyButtV1MessageSSBURI(uri) ||
+    isGabbyGroveV1MessageSSBURI(uri) ||
+    isButtwooV1MessageSSBURI(uri) ||
+    isIndexedV1MessageSSBURI(uri)
+  )
 }
 
 export function isClassicBlobSSBURI(uri: string | null) {
@@ -191,16 +211,8 @@ export function isExperimentalSSBURIWithAction(action: string) {
 
 export function isSSBURI(uri: string | null) {
   return (
-    isClassicFeedSSBURI(uri) ||
-    isBendyButtV1FeedSSBURI(uri) ||
-    isGabbyGroveV1FeedSSBURI(uri) ||
-    isButtwooV1FeedSSBURI(uri) ||
-    isIndexedV1FeedSSBURI(uri) ||
-    isClassicMessageSSBURI(uri) ||
-    isBendyButtV1MessageSSBURI(uri) ||
-    isGabbyGroveV1MessageSSBURI(uri) ||
-    isButtwooV1MessageSSBURI(uri) ||
-    isIndexedV1MessageSSBURI(uri) ||
+    isFeedSSBURI(uri) ||
+    isMessageSSBURI(uri) ||
     isClassicBlobSSBURI(uri) ||
     isAddressSSBURI(uri) ||
     isEncryptionKeyBox2DMDiffieHellmanSSBURI(uri) ||

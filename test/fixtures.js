@@ -11,6 +11,7 @@ module.exports.message = {
   uri6: 'ssb://message/buttwoo-v1/Z0rMVMDEO1Aj0uPl0_J2NlhFB2bbFLIHlty_YuqArFq=',
   uri7: 'ssb:message/sha256/g3hPVPDEO1Aj_uPl0-J2NlhFB2bbFLIHlty-YuqFZ3w=',
   uri8: 'ssb:message/indexed-v1/Z0rMVMDEO1Aj0uPl0_J2NlhFB2bbFLIHlty_YuqArFq=',
+  uri9: 'ssb:message/cloaked/Z0rMVMDEO1Aj0uPl0_J2NlhFB2bbFLIHlty_YuqArFq=',
 };
 
 module.exports.feed = {

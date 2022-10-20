@@ -22,6 +22,11 @@ test('decompose() a message URI', (t) => {
   t.equals(parts.data, 'g3hPVPDEO1Aj/uPl0+J2NlhFB2bbFLIHlty+YuqFZ3w=', 'data');
 });
 
+test('decompose() a cloaked message', (t) => {
+  const parts = ssbUri.decompose(fixtures.message.uri9);
+  t.end();
+});
+
 test('decompose() and compose()', (t) => {
   t.plan(1);
   const uri = ssbUri.compose(ssbUri.decompose(fixtures.message.uri));

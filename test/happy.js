@@ -6,7 +6,7 @@ const fixtures = require('./fixtures');
 const ssbUri = require('../lib');
 
 test('message URIs recognized', (t) => {
-  t.plan(9);
+  t.plan(10);
   t.true(ssbUri.isSSBURI(fixtures.message.uri));
   t.true(ssbUri.isClassicMessageSSBURI(fixtures.message.uri));
   t.true(ssbUri.isClassicMessageSSBURI(fixtures.message.uri2));
@@ -17,6 +17,7 @@ test('message URIs recognized', (t) => {
   t.true(ssbUri.isGabbyGroveV1MessageSSBURI(fixtures.message.uri5));
   t.true(ssbUri.isButtwooV1MessageSSBURI(fixtures.message.uri6));
   t.true(ssbUri.isIndexedV1MessageSSBURI(fixtures.message.uri8));
+  t.true(ssbUri.isCloakedV1MessageSSBURI(fixtures.message.uri9));
 });
 
 test('message URI regex', (t) => {

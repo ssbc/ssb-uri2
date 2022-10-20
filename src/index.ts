@@ -1,4 +1,4 @@
-import {BlobId, FeedId, MsgId} from 'ssb-typescript';
+import { BlobId, FeedId, MsgId } from 'ssb-typescript';
 
 type FeedTF =
   | ['feed', 'classic']
@@ -128,7 +128,7 @@ export function isFeedSSBURI(uri: string | null) {
     isGabbyGroveV1FeedSSBURI(uri) ||
     isButtwooV1FeedSSBURI(uri) ||
     isIndexedV1FeedSSBURI(uri)
-  )
+  );
 }
 
 export function isClassicMessageSSBURI(uri: string | null) {
@@ -155,7 +155,7 @@ export function isIndexedV1MessageSSBURI(uri: string | null) {
 }
 
 export function isCloakedV1MessageSSBURI(uri: string | null) {
-  return checkTypeFormat(uri, 'message', 'cloaked')
+  return checkTypeFormat(uri, 'message', 'cloaked');
 }
 
 export function isMessageSSBURI(uri: string | null) {
@@ -166,7 +166,7 @@ export function isMessageSSBURI(uri: string | null) {
     isButtwooV1MessageSSBURI(uri) ||
     isIndexedV1MessageSSBURI(uri) ||
     isCloakedV1MessageSSBURI(uri)
-  )
+  );
 }
 
 export function isClassicBlobSSBURI(uri: string | null) {
@@ -286,7 +286,7 @@ type CanonicalParts =
   | PartsFor<EncryptionKeyTF>
   | PartsFor<IdentityTF>;
 
-function validateParts({type, format, data}: Partial<CanonicalParts>) {
+function validateParts({ type, format, data }: Partial<CanonicalParts>) {
   if (!type) throw new Error('Missing required "type" property');
   if (!format) throw new Error('Missing required "format" property');
   if (!data) throw new Error('Missing required "data" property');
@@ -348,7 +348,7 @@ function validateParts({type, format, data}: Partial<CanonicalParts>) {
  * @param parts
  */
 function fixParts(parts: Partial<CanonicalParts>) {
-  const {type, format} = parts;
+  const { type, format } = parts;
   if (type === 'feed' && format === 'ed25519') {
     parts.format = 'classic';
     return;
@@ -365,7 +365,7 @@ function fixParts(parts: Partial<CanonicalParts>) {
 
 export function compose(parts: Partial<CanonicalParts>) {
   validateParts(parts as Partial<CanonicalParts>);
-  const {type, format, data, extraData} = parts as CanonicalParts;
+  const { type, format, data, extraData } = parts as CanonicalParts;
   const safeData = Base64.unsafeToSafe(data);
   if (extraData) {
     const safeExtraData = Base64.unsafeToSafe(extraData);
@@ -383,7 +383,7 @@ export function decompose(uri: string): CanonicalParts {
   const pathname = uri.substring(4);
   const [type, format, safeData, safeExtraData] = pathname.split('/');
   const data = Base64.safeToUnsafe(safeData);
-  const parts = {type, format, data} as CanonicalParts;
+  const parts = { type, format, data } as CanonicalParts;
   validateParts(parts);
   fixParts(parts);
   if (safeExtraData) parts.extraData = Base64.safeToUnsafe(safeExtraData);

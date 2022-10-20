@@ -13,7 +13,8 @@ type MessageTF =
   | ['message', 'bendybutt-v1']
   | ['message', 'gabbygrove-v1']
   | ['message', 'buttwoo-v1']
-  | ['message', 'indexed-v1'];
+  | ['message', 'indexed-v1']
+  | ['message', 'cloaked'];
 type BlobTF = ['blob', 'classic'] | ['blob', 'sha256'];
 type AddressTF = ['address', 'multiserver'];
 type EncryptionKeyTF = ['encryption-key', 'box2-dm-dh'];
@@ -153,13 +154,18 @@ export function isIndexedV1MessageSSBURI(uri: string | null) {
   return checkTypeFormat(uri, 'message', 'indexed-v1');
 }
 
+export function isCloakedV1MessageSSBURI(uri: string | null) {
+  return checkTypeFormat(uri, 'message', 'cloaked')
+}
+
 export function isMessageSSBURI(uri: string | null) {
   return (
     isClassicMessageSSBURI(uri) ||
     isBendyButtV1MessageSSBURI(uri) ||
     isGabbyGroveV1MessageSSBURI(uri) ||
     isButtwooV1MessageSSBURI(uri) ||
-    isIndexedV1MessageSSBURI(uri)
+    isIndexedV1MessageSSBURI(uri) ||
+    isCloakedV1MessageSSBURI(uri)
   )
 }
 
@@ -305,7 +311,8 @@ function validateParts({type, format, data}: Partial<CanonicalParts>) {
       format !== 'bendybutt-v1' &&
       format !== 'gabbygrove-v1' &&
       format !== 'buttwoo-v1' &&
-      format !== 'indexed-v1'
+      format !== 'indexed-v1' &&
+      format !== 'cloaked'
     ) {
       throw new Error('Unknown format for type "message": ' + format);
     } else return;

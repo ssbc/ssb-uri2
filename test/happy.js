@@ -162,9 +162,10 @@ test('address from URI to multiserver', (t) => {
 });
 
 test('identity URIs recognized', (t) => {
-  t.plan(2);
+  t.plan(3);
   t.true(ssbUri.isSSBURI(fixtures.identity.uri));
   t.true(ssbUri.isSSBURI(fixtures.identity.uri2));
+  t.true(ssbUri.isSSBURI(fixtures.identity.uri3));
 });
 
 test('experimental URIs recognized', (t) => {

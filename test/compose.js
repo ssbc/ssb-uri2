@@ -27,6 +27,38 @@ test('decompose() a cloaked message', (t) => {
   t.end();
 });
 
+test('compose() identities', (t) => {
+  let uri = ssbUri.compose({
+    type: 'identity',
+    format: 'po-box',
+    data: '-oaWWDs8g73EZFUMfW37R_ULtFEjwKN_DczvdYihjbU=',
+  });
+  t.equals(uri, fixtures.identity.uri);
+
+  uri = ssbUri.compose({
+    type: 'identity',
+    format: 'fusion',
+    data: '-oaWWDs8g73EZFUMfW37R_ULtFEjwKN_DczvdYihjbU=',
+  });
+  t.equals(uri, fixtures.identity.uri2);
+
+  uri = ssbUri.compose({
+    type: 'identity',
+    format: 'group',
+    data: '-oaWWDs8g73EZFUMfW37R_ULtFEjwKN_DczvdYihjbU=',
+  });
+  t.equals(uri, fixtures.identity.uri3);
+
+  t.end();
+});
+
+test('decompose() identities', (t) => {
+  ssbUri.decompose(fixtures.identity.uri);
+  ssbUri.decompose(fixtures.identity.uri2);
+  ssbUri.decompose(fixtures.identity.uri3);
+  t.end();
+});
+
 test('decompose() and compose()', (t) => {
   t.plan(1);
   const uri = ssbUri.compose(ssbUri.decompose(fixtures.message.uri));

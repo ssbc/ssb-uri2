@@ -46,6 +46,7 @@ module.exports.address = {
 module.exports.identity = {
   uri: 'ssb:identity/po-box/-oaWWDs8g73EZFUMfW37R_ULtFEjwKN_DczvdYihjbU=',
   uri2: 'ssb:identity/fusion/-oaWWDs8g73EZFUMfW37R_ULtFEjwKN_DczvdYihjbU=',
+  uri3: 'ssb:identity/group/-oaWWDs8g73EZFUMfW37R_ULtFEjwKN_DczvdYihjbU=',
 };
 
 module.exports.experimental = {

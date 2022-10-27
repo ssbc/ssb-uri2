@@ -18,7 +18,10 @@ type MessageTF =
 type BlobTF = ['blob', 'classic'] | ['blob', 'sha256'];
 type AddressTF = ['address', 'multiserver'];
 type EncryptionKeyTF = ['encryption-key', 'box2-dm-dh'];
-type IdentityTF = ['identity', 'po-box'] | ['identity', 'fusion'];
+type IdentityTF =
+  | ['identity', 'po-box']
+  //| ['identity', 'group']
+  | ['identity', 'fusion'];
 type TF =
   | FeedTF
   | MessageTF
@@ -262,6 +265,7 @@ export function getMessageSSBURIRegex() {
     'gabbygrove-v1',
     'buttwoo-v1',
     'indexed-v1',
+    'cloaked',
   ];
   return new RegExp(
     `ssb:(\/\/)?` +

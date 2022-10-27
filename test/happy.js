@@ -21,7 +21,7 @@ test('message URIs recognized', (t) => {
 });
 
 test('message URI regex', (t) => {
-  t.plan(8);
+  t.plan(9);
   t.true(ssbUri.getMessageSSBURIRegex().test(fixtures.message.uri));
   t.true(ssbUri.getMessageSSBURIRegex().test(fixtures.message.uri2));
   t.true(ssbUri.getMessageSSBURIRegex().test(fixtures.message.uri3));
@@ -30,6 +30,7 @@ test('message URI regex', (t) => {
   t.true(ssbUri.getMessageSSBURIRegex().test(fixtures.message.uri6));
   t.true(ssbUri.getMessageSSBURIRegex().test(fixtures.message.uri7));
   t.true(ssbUri.getMessageSSBURIRegex().test(fixtures.message.uri8));
+  t.true(ssbUri.getMessageSSBURIRegex().test(fixtures.message.uri9));
 });
 
 test('message from sigil to URI', (t) => {

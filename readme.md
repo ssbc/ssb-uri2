@@ -13,10 +13,10 @@ npm install ssb-uri2
 ## Example
 
 ```js
-const ssbUri = require("ssb-uri2");
+const ssbUri = require('ssb-uri2');
 
 const exampleURI =
-  "ssb:message/classic/g3hPVPDEO1Aj_uPl0-J2NlhFB2bbFLIHlty-YuqFZ3w=";
+  'ssb:message/classic/g3hPVPDEO1Aj_uPl0-J2NlhFB2bbFLIHlty-YuqFZ3w=';
 
 ssbUri.isClassicMessageSSBURI(exampleURI);
 // true
@@ -61,7 +61,11 @@ ssbUri.toMessageSigil(exampleURI);
 
 ### `isIdentityPOBoxSSBURI(uri: string | null): boolean`
 
+### `isIdentityGroupSSBURI(uri: string | null): boolean`
+
 ### `isIdentityFusionSSBURI(uri: string | null): boolean`
+
+### `isIdentitySSBURI(uri: string | null): boolean`
 
 ### `isExperimentalSSBURI(uri: string | null): boolean`
 

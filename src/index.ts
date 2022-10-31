@@ -18,7 +18,10 @@ type MessageTF =
 type BlobTF = ['blob', 'classic'] | ['blob', 'sha256'];
 type AddressTF = ['address', 'multiserver'];
 type EncryptionKeyTF = ['encryption-key', 'box2-dm-dh'];
-type IdentityTF = ['identity', 'po-box'] | ['identity', 'fusion'];
+type IdentityTF =
+  | ['identity', 'po-box']
+  | ['identity', 'group']
+  | ['identity', 'fusion'];
 type TF =
   | FeedTF
   | MessageTF
@@ -194,8 +197,20 @@ export function isIdentityPOBoxSSBURI(uri: string | null) {
   return checkTypeFormat(uri, 'identity', 'po-box');
 }
 
+export function isIdentityGroupSSBURI(uri: string | null) {
+  return checkTypeFormat(uri, 'identity', 'group');
+}
+
 export function isIdentityFusionSSBURI(uri: string | null) {
   return checkTypeFormat(uri, 'identity', 'fusion');
+}
+
+export function isIdentitySSBURI(uri: string | null) {
+  return (
+    isIdentityPOBoxSSBURI(uri) ||
+    isIdentityGroupSSBURI(uri) ||
+    isIdentityFusionSSBURI(uri)
+  );
 }
 
 export function isExperimentalSSBURI(uri: string | null) {
@@ -222,8 +237,7 @@ export function isSSBURI(uri: string | null) {
     isClassicBlobSSBURI(uri) ||
     isAddressSSBURI(uri) ||
     isEncryptionKeyBox2DMDiffieHellmanSSBURI(uri) ||
-    isIdentityPOBoxSSBURI(uri) ||
-    isIdentityFusionSSBURI(uri) ||
+    isIdentitySSBURI(uri) ||
     isExperimentalSSBURI(uri)
   );
 }
@@ -262,6 +276,7 @@ export function getMessageSSBURIRegex() {
     'gabbygrove-v1',
     'buttwoo-v1',
     'indexed-v1',
+    'cloaked',
   ];
   return new RegExp(
     `ssb:(\/\/)?` +
@@ -337,7 +352,7 @@ function validateParts({ type, format, data }: Partial<CanonicalParts>) {
   }
 
   if (type === 'identity') {
-    if (format !== 'po-box' && format !== 'fusion') {
+    if (format !== 'po-box' && format !== 'group' && format !== 'fusion') {
       throw new Error('Unknown format for type "identity": ' + format);
     } else return;
   }

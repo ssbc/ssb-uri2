@@ -53,9 +53,15 @@ test('compose() identities', (t) => {
 });
 
 test('decompose() identities', (t) => {
-  ssbUri.decompose(fixtures.identity.uri);
-  ssbUri.decompose(fixtures.identity.uri2);
-  ssbUri.decompose(fixtures.identity.uri3);
+  let info = ssbUri.decompose(fixtures.identity.uri);
+  t.equals(info.format, 'po-box');
+
+  info = ssbUri.decompose(fixtures.identity.uri2);
+  t.equals(info.format, 'fusion');
+
+  info = ssbUri.decompose(fixtures.identity.uri3);
+  t.equals(info.format, 'group');
+
   t.end();
 });
 

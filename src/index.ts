@@ -48,16 +48,22 @@ function extractBase64Data(pathname: string | null): string | null {
 }
 
 export function fromFeedSigil(sigil: FeedId) {
+  if (typeof sigil !== 'string') return null;
+  if (!sigil.startsWith('@')) return null;
   const data = Base64.unsafeToSafe(sigil.slice(1, -8));
   return `ssb:feed/classic/${data}`;
 }
 
 export function fromMessageSigil(sigil: MsgId) {
+  if (typeof sigil !== 'string') return null;
+  if (!sigil.startsWith('%')) return null;
   const data = Base64.unsafeToSafe(sigil.slice(1, -7));
   return `ssb:message/classic/${data}`;
 }
 
 export function fromBlobSigil(sigil: BlobId) {
+  if (typeof sigil !== 'string') return null;
+  if (!sigil.startsWith('&')) return null;
   const data = Base64.unsafeToSafe(sigil.slice(1, -7));
   return `ssb:blob/classic/${data}`;
 }

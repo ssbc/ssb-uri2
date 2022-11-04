@@ -1,4 +1,5 @@
 import { BlobId, FeedId, MsgId } from 'ssb-typescript';
+const ref = require('ssb-ref');
 
 type FeedTF =
   | ['feed', 'classic']
@@ -48,21 +49,25 @@ function extractBase64Data(pathname: string | null): string | null {
 }
 
 export function fromFeedSigil(sigil: FeedId) {
+  if (!ref.isFeed(sigil)) return null;
   const data = Base64.unsafeToSafe(sigil.slice(1, -8));
   return `ssb:feed/classic/${data}`;
 }
 
 export function fromMessageSigil(sigil: MsgId) {
+  if (!ref.isMsg(sigil)) return null;
   const data = Base64.unsafeToSafe(sigil.slice(1, -7));
   return `ssb:message/classic/${data}`;
 }
 
 export function fromBlobSigil(sigil: BlobId) {
+  if (!ref.isBlob(sigil)) return null;
   const data = Base64.unsafeToSafe(sigil.slice(1, -7));
   return `ssb:blob/classic/${data}`;
 }
 
 export function fromMultiserverAddress(msaddr: string) {
+  if (!ref.isAddress(msaddr)) return null;
   const encoded = encodeURIComponent(msaddr);
   return `ssb:address/multiserver?multiserverAddress=${encoded}`;
 }

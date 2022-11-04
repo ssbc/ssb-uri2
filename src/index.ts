@@ -1,5 +1,4 @@
 import { BlobId, FeedId, MsgId } from 'ssb-typescript';
-const ref = require('ssb-ref');
 
 type FeedTF =
   | ['feed', 'classic']
